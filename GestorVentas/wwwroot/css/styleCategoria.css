@@ -1,0 +1,33 @@
+﻿
+.dataTables_filter {
+    color: #000000 !important;
+}
+
+input[type="search"] {
+    color: #000000 !important;
+}
+
+.btn-nuevo {
+    background-color: #5cb85c !important;
+    color: #fff !important;
+}
+
+.buttons-excel {
+    background-color: #5bc0de !important;
+    color: #fff !important;
+}
+
+.buttons-page-length {
+    background-color: #e9ecef !important;
+    color: #000 !important;
+}
+
+.paginate_button {
+    background-color: #e9ecef !important;
+    color: #000 !important;
+}
+
+
+#tbdata > thead input {
+    width: 100%;
+}
