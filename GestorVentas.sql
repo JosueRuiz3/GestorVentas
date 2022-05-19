@@ -372,3 +372,4 @@ GO
 
 
 SELECT * FROM Productos;
+SELECT * FROM Productos;
