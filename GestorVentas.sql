@@ -376,7 +376,7 @@ CREATE TABLE Productos(
 );
 GO
 
-CREATE PROCEDURE SP_Listar_Producto
+CREATE OR ALTER PROCEDURE SP_Listar_Producto
 	AS
 BEGIN	
 	SELECT 
@@ -386,8 +386,8 @@ BEGIN
 		P.PrecioVenta,
 		P.UnidadesEnExistencia,
 		P.CodigoProducto,
-		C.NombreCategoria[Categoria],
-		PV.Compañia
+		C.Id,C.NombreCategoria[Categoria],
+		PV.Id, PV.Compañia
 
 	FROM Productos P
 	INNER JOIN Categorias C ON C.Id = P.Id
