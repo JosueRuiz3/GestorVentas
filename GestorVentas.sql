@@ -253,6 +253,11 @@ EXEC SP_Guardar_Categoria
 	@Descripcion = 'Pescados, mariscos y algas'
 GO
 
+EXEC SP_Guardar_Categoria
+	@NombreCategoria = 'Granos/Cereales',
+	@Descripcion = 'Arroz, Pan, Galletas, Cereales, Pastas, Frijoles'
+GO
+
 EXEC SP_Listar_Categoria
 GO
 
@@ -355,19 +360,104 @@ GO
 
 CREATE TABLE Productos(
 	Id INT IDENTITY(1,1),
-	NombreProducto VARCHAR(20) NOT NULL,
+	NombreProducto VARCHAR(100) NOT NULL,
 	PrecioUnidad decimal(10,2) NOT NULL,
 	PrecioVenta decimal(10,2) NOT NULL,
 	UnidadesEnExistencia INT NOT NULL,
 	CodigoProducto VARCHAR(20) NOT NULL,
 	CategoriaConProductoId INT NOT NULL,
+	ProveedoresConProductoId INT NOT NULL,
 
 	FechaCreacion DATETIME DEFAULT GETDATE() NOT NULL
 
 	CONSTRAINT PK_Producto PRIMARY KEY(Id),
-	CONSTRAINT FK_Producto_Categoria FOREIGN KEY(CategoriaConProductoId) REFERENCES Categorias(Id)
+	CONSTRAINT FK_Producto_Categoria FOREIGN KEY(CategoriaConProductoId) REFERENCES Categorias(Id),
+	CONSTRAINT FK_Producto_Proveedores FOREIGN KEY(ProveedoresConProductoId) REFERENCES Proveedores(Id)
 );
 GO
 
+CREATE PROCEDURE SP_Listar_Producto
+	AS
+BEGIN	
+	SELECT 
+		P.Id,
+		P.NombreProducto,
+		P.PrecioUnidad,
+		P.PrecioVenta,
+		P.UnidadesEnExistencia,
+		P.CodigoProducto,
+		C.NombreCategoria[Categoria],
+		PV.Compañia
 
+	FROM Productos P
+	INNER JOIN Categorias C ON C.Id = P.Id
+	INNER JOIN Proveedores PV ON PV.Id = P.Id
+	ORDER BY P.Id DESC
 
+END
+GO
+
+CREATE OR ALTER PROCEDURE SP_Guardar_Producto
+	@NombreProducto VARCHAR(20),
+	@PrecioUnidad decimal(10,2),
+	@PrecioVenta decimal(10,2),
+	@UnidadesEnExistencia INT,
+	@CodigoProducto VARCHAR(20),
+	@CategoriaConProductoId INT,
+	@ProveedoresConProductoId INT
+	AS
+BEGIN
+	
+	INSERT INTO Productos(NombreProducto, PrecioUnidad, PrecioVenta, UnidadesEnExistencia, CodigoProducto, CategoriaConProductoId, ProveedoresConProductoId)
+	VALUES(@NombreProducto, @PrecioUnidad, @PrecioVenta, @UnidadesEnExistencia, @CodigoProducto, @CategoriaConProductoId, @ProveedoresConProductoId)
+
+END
+GO
+
+CREATE PROCEDURE SP_Actualizar_Producto
+	@Id INT,
+	@NombreProducto VARCHAR(20),
+	@PrecioUnidad decimal(10,2),
+	@PrecioVenta decimal(10,2),
+	@UnidadesEnExistencia INT,
+	@CodigoProducto VARCHAR(20),
+	@CategoriaConProductoId INT,
+	@ProveedoresConProductoId INT
+	AS
+BEGIN
+
+	UPDATE Productos
+	SET
+		NombreProducto = @NombreProducto,
+		PrecioUnidad = @PrecioUnidad,
+		PrecioVenta = @PrecioVenta,
+		UnidadesEnExistencia = @UnidadesEnExistencia,
+		CodigoProducto = @CodigoProducto,
+		CategoriaConProductoId = @CategoriaConProductoId,
+		ProveedoresConProductoId = @ProveedoresConProductoId
+	WHERE
+		Id = @Id
+END
+GO
+
+CREATE PROCEDURE SP_Eliminar_Producto
+	@Id INT
+	AS
+BEGIN
+
+	DELETE FROM Productos WHERE Id = @Id
+
+END
+GO 
+
+EXEC SP_Guardar_Producto
+	@NombreProducto = 'ARROZ TIO PELON NEGRO 99% GRANO ENTERO 1,8kg',
+	@PrecioUnidad = '1070.00',
+	@PrecioVenta = '1570.00',
+	@UnidadesEnExistencia = 35 ,
+	@CodigoProducto = 'ATP18KG',
+	@CategoriaConProductoId = 4,
+	@ProveedoresConProductoId = 3
+GO
+
+EXEC SP_Listar_Producto;
