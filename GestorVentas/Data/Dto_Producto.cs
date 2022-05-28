@@ -31,9 +31,7 @@ namespace GestorVentas.Data
                             PrecioUnidad = Convert.ToDecimal(dr["PrecioUnidad"], new CultureInfo("es-PE")),
                             PrecioVenta = Convert.ToDecimal(dr["PrecioVenta"], new CultureInfo("es-PE")),
                             UnidadesEnExistencia = Convert.ToInt32(dr["UnidadesEnExistencia"]),
-                            CodigoProducto = dr["CodigoProducto"].ToString(),
-                            CategoriaConProducto = new Categorias() { Id = Convert.ToInt32(dr["Id"]), NombreCategoria = dr["NombreCategoria"].ToString() },
-                            ProveedoresConProductos = new Proveedores() { Id = Convert.ToInt32(dr["Id"]), Compañia = dr["Compañia"].ToString() }
+                            CodigoProducto = dr["CodigoProducto"].ToString()
 
                         });
                     }
@@ -60,8 +58,6 @@ namespace GestorVentas.Data
                     cmd.Parameters.AddWithValue("PrecioVenta", obj.PrecioVenta);
                     cmd.Parameters.AddWithValue("UnidadesEnExistencia", obj.UnidadesEnExistencia);
                     cmd.Parameters.AddWithValue("CodigoProducto", obj.CodigoProducto);
-                    cmd.Parameters.AddWithValue("Id", obj.CategoriaConProducto.Id);
-                    cmd.Parameters.AddWithValue("Id", obj.ProveedoresConProductos.Id);
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.ExecuteNonQuery();
@@ -91,8 +87,6 @@ namespace GestorVentas.Data
                     cmd.Parameters.AddWithValue("PrecioVenta", obj.PrecioVenta);
                     cmd.Parameters.AddWithValue("UnidadesEnExistencia", obj.UnidadesEnExistencia);
                     cmd.Parameters.AddWithValue("CodigoProducto", obj.CodigoProducto);
-                    cmd.Parameters.AddWithValue("Id", obj.CategoriaConProducto.Id);
-                    cmd.Parameters.AddWithValue("Id", obj.ProveedoresConProductos.Id);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.ExecuteNonQuery();
                     respuesta = true;

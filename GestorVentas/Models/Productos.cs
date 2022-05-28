@@ -29,26 +29,26 @@ namespace GestorVentas.Models
 
 
 
-        [Display(Name = "Categoria")]
-        [JsonIgnore]
-        public int CategoriaConProductoId { get; set; }//Relacion con Categorias FK
-        [Display(Name = "Categoria")]
-        [JsonIgnore]
-        public Categorias CategoriaConProducto { get; set; }//Atributos de Navegacion
+        //[Display(Name = "Categoria")]
+        //[JsonIgnore]
+        //public int CategoriaConProductoId { get; set; }//Relacion con Categorias FK
+        //[Display(Name = "Categoria")]
+        //[JsonIgnore]
+        //public Categorias CategoriaConProducto { get; set; }//Atributos de Navegacion
 
-        [Display(Name = "Proveedor")]
-        [JsonIgnore]
-        public int ProveedoresConProductosId { get; set; }//Relacion con Proveedores FK
-        [Display(Name = "Proveedor")]
-        [JsonIgnore]
-        public Proveedores ProveedoresConProductos { get; set; }//Atributos de Navegacion
+        //[Display(Name = "Proveedor")]
+        //[JsonIgnore]
+        //public int ProveedoresConProductosId { get; set; }//Relacion con Proveedores FK
+        //[Display(Name = "Proveedor")]
+        //[JsonIgnore]
+        //public Proveedores ProveedoresConProductos { get; set; }//Atributos de Navegacion
 
 
 
-        [JsonIgnore]
-        public List<Facturacion> Facturacion { get; set; } //Propiedad de Navegación
+        //[JsonIgnore]
+        //public List<Facturacion> Facturacion { get; set; } //Propiedad de Navegación
 
-        [JsonIgnore]
-        public List<DetalleFactura> DetalleFacturas { get; set; }//Propiedad de Navegación
+        //[JsonIgnore]
+        //public List<DetalleFactura> DetalleFacturas { get; set; }//Propiedad de Navegación
     }
 }
