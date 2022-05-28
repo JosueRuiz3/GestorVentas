@@ -172,13 +172,13 @@ SELECT * FROM Login;
 --=============================================================================================
 
 CREATE TABLE Categorias(
-	Id INT IDENTITY(1,1),
+	IdCategoria  INT IDENTITY(1,1),
 	NombreCategoria VARCHAR(20) NOT NULL,
 	Descripcion VARCHAR(100) NOT NULL,
 
 	FechaCreacion DATETIME DEFAULT GETDATE() NOT NULL
 
-	CONSTRAINT PK_Categoria PRIMARY KEY(Id)
+	CONSTRAINT PK_Categoria PRIMARY KEY(IdCategoria )
 );
 GO
 
@@ -186,11 +186,11 @@ GO
 -- PROCEDIMIENTOS ALMACENADOS -> CATEGORIA
 --=============================================================================================
 
-CREATE PROCEDURE SP_Listar_Categoria
+CREATE OR ALTER PROCEDURE SP_Listar_Categoria
 	AS
 BEGIN	
 
-	SELECT Id, NombreCategoria, Descripcion FROM Categorias
+	SELECT IdCategoria, NombreCategoria, Descripcion FROM Categorias
 
 END
 GO
@@ -209,8 +209,8 @@ END
 GO
 
 
-CREATE PROCEDURE SP_Actualizar_Categoria
-	@Id INT,
+CREATE OR ALTER PROCEDURE SP_Actualizar_Categoria
+	@IdCategoria  INT,
 	@NombreCategoria VARCHAR(20),
 	@Descripcion VARCHAR(100)
 	AS
@@ -223,17 +223,17 @@ BEGIN
 		Descripcion = @Descripcion
 		
 	WHERE
-		Id = @Id
+		IdCategoria  = @IdCategoria 
 END
 GO
 
 
-CREATE PROCEDURE SP_Eliminar_Categoria
-	@Id INT
+CREATE OR ALTER PROCEDURE SP_Eliminar_Categoria
+	@IdCategoria  INT
 	AS
 BEGIN
 
-	DELETE FROM Categorias WHERE Id = @Id
+	DELETE FROM Categorias WHERE IdCategoria  = @IdCategoria 
 
 END
 GO 
@@ -365,6 +365,7 @@ CREATE TABLE Productos(
 	PrecioVenta decimal(10,2) NOT NULL,
 	UnidadesEnExistencia INT NOT NULL,
 	CodigoProducto VARCHAR(20) NOT NULL,
+	IdCategoria INT,
 
 	FechaCreacion DATETIME DEFAULT GETDATE() NOT NULL
 
@@ -376,31 +377,34 @@ CREATE OR ALTER PROCEDURE SP_Listar_Producto
 	AS
 BEGIN	
 	SELECT 
-		Id,
-		NombreProducto,
-		PrecioUnidad,
-		PrecioVenta,
-		UnidadesEnExistencia,
-		CodigoProducto
+		p.Id,
+		p.NombreProducto,
+		p.PrecioUnidad,
+		p.PrecioVenta,
+		p.UnidadesEnExistencia,
+		p.CodigoProducto,
+		c.IdCategoria,c.Descripcion
 
-	FROM Productos 
-
+	FROM Productos p
+	INNER JOIN Categorias c on c.IdCategoria  = p.IdCategoria
+	ORDER BY p.Id ASC
 END
 GO
 
 EXEC SP_Listar_Producto;
 
-CREATE PROCEDURE SP_Guardar_Producto
+CREATE OR ALTER PROCEDURE SP_Guardar_Producto
 	@NombreProducto VARCHAR(20),
 	@PrecioUnidad decimal(10,2),
 	@PrecioVenta decimal(10,2),
 	@UnidadesEnExistencia INT,
-	@CodigoProducto VARCHAR(20)
+	@CodigoProducto VARCHAR(20),
+	@IdCategoria INT
 	AS
 BEGIN
 	
-	INSERT INTO Productos(NombreProducto, PrecioUnidad, PrecioVenta, UnidadesEnExistencia, CodigoProducto)
-	VALUES(@NombreProducto, @PrecioUnidad, @PrecioVenta, @UnidadesEnExistencia, @CodigoProducto )
+	INSERT INTO Productos(NombreProducto, PrecioUnidad, PrecioVenta, UnidadesEnExistencia, CodigoProducto,IdCategoria)
+	VALUES(@NombreProducto, @PrecioUnidad, @PrecioVenta, @UnidadesEnExistencia, @CodigoProducto, @IdCategoria)
 
 END
 GO
@@ -411,7 +415,8 @@ CREATE OR ALTER PROCEDURE SP_Actualizar_Producto
 	@PrecioUnidad decimal(10,2),
 	@PrecioVenta decimal(10,2),
 	@UnidadesEnExistencia INT,
-	@CodigoProducto VARCHAR(20)
+	@CodigoProducto VARCHAR(20),
+	@IdCategoria INT
 	AS
 BEGIN
 
@@ -421,7 +426,8 @@ BEGIN
 		PrecioUnidad = @PrecioUnidad,
 		PrecioVenta = @PrecioVenta,
 		UnidadesEnExistencia = @UnidadesEnExistencia,
-		CodigoProducto = @CodigoProducto
+		CodigoProducto = @CodigoProducto,
+		IdCategoria = @IdCategoria 
 	WHERE
 		Id = @Id
 END
@@ -442,7 +448,8 @@ EXEC SP_Guardar_Producto
 	@PrecioUnidad = '1070.00',
 	@PrecioVenta = '1570.00',
 	@UnidadesEnExistencia = 25 ,
-	@CodigoProducto = 'gpc2ax'
+	@CodigoProducto = 'gpc2ax',
+	@IdCategoria =  4
 GO
 
 
@@ -451,7 +458,8 @@ EXEC SP_Guardar_Producto
 	@PrecioUnidad = '1070.00',
 	@PrecioVenta = '1570.00',
 	@UnidadesEnExistencia = 35 ,
-	@CodigoProducto = 'ATP18KG'
+	@CodigoProducto = 'ATP18KG',
+	@IdCategoria =  4
 GO
 
 EXEC SP_Listar_Producto;

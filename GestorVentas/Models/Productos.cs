@@ -32,9 +32,9 @@ namespace GestorVentas.Models
         //[Display(Name = "Categoria")]
         //[JsonIgnore]
         //public int CategoriaConProductoId { get; set; }//Relacion con Categorias FK
-        //[Display(Name = "Categoria")]
-        //[JsonIgnore]
-        //public Categorias CategoriaConProducto { get; set; }//Atributos de Navegacion
+        [Display(Name = "Categoria")]
+        [JsonIgnore]
+        public Categorias CategoriaConProducto { get; set; }//Atributos de Navegacion
 
         //[Display(Name = "Proveedor")]
         //[JsonIgnore]

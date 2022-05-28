@@ -31,7 +31,9 @@ namespace GestorVentas.Data
                             PrecioUnidad = Convert.ToDecimal(dr["PrecioUnidad"], new CultureInfo("es-PE")),
                             PrecioVenta = Convert.ToDecimal(dr["PrecioVenta"], new CultureInfo("es-PE")),
                             UnidadesEnExistencia = Convert.ToInt32(dr["UnidadesEnExistencia"]),
-                            CodigoProducto = dr["CodigoProducto"].ToString()
+                            CodigoProducto = dr["CodigoProducto"].ToString(),
+                            CategoriaConProducto = new Categorias() { IdCategoria = Convert.ToInt32(dr["IdCategoria "]), Descripcion = dr["Descripcion"].ToString() },
+
 
                         });
                     }
@@ -58,6 +60,7 @@ namespace GestorVentas.Data
                     cmd.Parameters.AddWithValue("PrecioVenta", obj.PrecioVenta);
                     cmd.Parameters.AddWithValue("UnidadesEnExistencia", obj.UnidadesEnExistencia);
                     cmd.Parameters.AddWithValue("CodigoProducto", obj.CodigoProducto);
+                    cmd.Parameters.AddWithValue("IdCategoria ", obj.CategoriaConProducto.IdCategoria);
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.ExecuteNonQuery();
@@ -87,6 +90,7 @@ namespace GestorVentas.Data
                     cmd.Parameters.AddWithValue("PrecioVenta", obj.PrecioVenta);
                     cmd.Parameters.AddWithValue("UnidadesEnExistencia", obj.UnidadesEnExistencia);
                     cmd.Parameters.AddWithValue("CodigoProducto", obj.CodigoProducto);
+                    cmd.Parameters.AddWithValue("IdCategoria ", obj.CategoriaConProducto.IdCategoria);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.ExecuteNonQuery();
                     respuesta = true;

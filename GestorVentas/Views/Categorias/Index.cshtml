@@ -31,7 +31,7 @@
                 <table id="tbdata" class="table table-striped w-100 shadow" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Id</th>
+                            <th>IdCategoria</th>
                             <th>Categoria</th>
                             <th>Descripcion</th>
                             <th>Acciones</th>
@@ -146,11 +146,10 @@
                 "ajax": {
                     "url": '@Url.Action("ListaCategoria", "Categorias")',
                     "type": "GET",
-                    "datatype": "json",
                     "datatype": "json"
                 },
                 "columns": [
-                    { "data": "id" },
+                    { "data": "idCategoria" },
                     { "data": "nombreCategoria" },
                     { "data": "descripcion" },
                     {
@@ -225,7 +224,7 @@
                   if (form.checkValidity()) {
                       console.log("Listo para registrar");
                       var request_body = {
-                          Id : $("#txtidcategoria").val(),
+                          IdCategoria : $("#txtidcategoria").val(),
                           NombreCategoria : $("#txtnombreCategoria").val(),
                           Descripcion : $("#txtdescripcion").val()
                       };
@@ -272,7 +271,7 @@
             var filaSeleccionada = $(this).closest('tr');
             var data = tabla.row(filaSeleccionada).data();
 
-            $("#txtidcategoria").val(data.id)
+            $("#txtidcategoria").val(data.idCategoria)
             $("#txtnombreCategoria").val(data.nombreCategoria)
             $("#txtdescripcion").val(data.descripcion)
 
@@ -298,7 +297,7 @@
 
                 if (result.isConfirmed) {
                       jQuery.ajax({
-                          url: '@Url.Action("EliminarCategoria", "Categorias")?idcategoria='+data.id,
+                          url: '@Url.Action("EliminarCategoria", "Categorias")?idcategoria='+data.idCategoria,
                           type: "DELETE",
                           dataType: "json",
                           contentType: "application/json; charset=utf-8",

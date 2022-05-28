@@ -4,7 +4,7 @@ namespace GestorVentas.Models
 {
     public class Categorias
     {
-        public int Id { get; set; }
+        public int IdCategoria { get; set; }
 
         [Required(ErrorMessage = "{0} es un campo obligatorio")]
         [Display(Name = "Nombre Categoria")]

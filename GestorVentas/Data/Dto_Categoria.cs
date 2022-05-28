@@ -25,7 +25,7 @@ namespace GestorVentas.Data
                     {
                         oLista.Add(new Categorias()
                         {
-                            Id = Convert.ToInt32(dr["Id"]),
+                            IdCategoria = Convert.ToInt32(dr["IdCategoria"]),
                             NombreCategoria = dr["NombreCategoria"].ToString(),
                             Descripcion = dr["Descripcion"].ToString()
                         });
@@ -72,7 +72,7 @@ namespace GestorVentas.Data
                 {
                     oconexion.Open();
                     SqlCommand cmd = new SqlCommand("SP_Actualizar_Categoria", oconexion);
-                    cmd.Parameters.AddWithValue("Id", obj.Id);
+                    cmd.Parameters.AddWithValue("IdCategoria", obj.IdCategoria);
                     cmd.Parameters.AddWithValue("NombreCategoria", obj.NombreCategoria);
                     cmd.Parameters.AddWithValue("Descripcion", obj.Descripcion);
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -87,7 +87,7 @@ namespace GestorVentas.Data
             return respuesta;
         }
 
-        public bool Eliminar(int id)
+        public bool Eliminar(int idCategoria)
         {
             bool respuesta;
             var cn = new Connection();
@@ -97,7 +97,7 @@ namespace GestorVentas.Data
                 {
                     oconexion.Open();
                     SqlCommand cmd = new SqlCommand("SP_Eliminar_Categoria", oconexion);
-                    cmd.Parameters.AddWithValue("Id", id);
+                    cmd.Parameters.AddWithValue("IdCategoria", idCategoria);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.ExecuteNonQuery();
                     respuesta = true;

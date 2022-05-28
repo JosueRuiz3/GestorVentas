@@ -32,6 +32,7 @@
                             <th>P.Venta</th>
                             <th>Existencia</th>
                             <th>Codigo</th>
+                            <th>Categoria</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -53,7 +54,16 @@
       <div class="modal-body">
           <form class="needs-validation" novalidate>
             <input id="txtidproducto" value="0" type="hidden" />
-            
+            <div class="row">
+               
+                <div class="col-6">
+                    <label for="exampleFormControlInput1" class="form-label">Categoría</label>
+                    <select class="form-select form-select-sm" id="cbcategoriaConProducto" required>
+                    </select>
+                    <div class="invalid-feedback">Seleccione categoria</div>
+                </div>
+            </div>
+
             <div class="row mt-2">
                 <div class="col-12">
                     <label class="form-label">Producto</label>
@@ -150,7 +160,7 @@
                         title: '',
                         filename: 'Reporte de Productos',
                         exportOptions: {
-                            columns: [ 1,2,3,4,5 ]
+                            columns: [ 1,2,3,4,5,6 ]
                         }
                     },'pageLength'
                 ],
@@ -168,6 +178,12 @@
                     { "data": "precioVenta" },
                     { "data": "unidadesEnExistencia" },
                     { "data": "codigoProducto" },
+                    {
+                        "data": "categoriaConProducto", "render": function (data) {
+                            return data.descripcion
+                        }
+                    },
+                    { "data": "descripcion" },
                     {
                         "defaultContent": '<button class="btn btn-primary btn-editar btn-sm me-2"><i class="bi bi-pencil-fill"></i></button>' +
                                           '<button class="btn btn-danger btn-eliminar btn-sm me-2"><i class="bi bi-trash-fill"></i></button>',
@@ -228,6 +244,22 @@
         
         })
 
+         jQuery.ajax({
+                url: '@Url.Action("ListaCategoria", "Categorias")',
+                type: "GET",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $("<option>").attr({ "value": ""}).text("Seleccionar").appendTo("#cbcategoriaConProducto");
+                    $.each(data.data, function (index, value) {
+                        $("<option>").attr({ "value": value.id }).text(value.descripcion).appendTo("#cbcategoriaConProducto");
+                    });
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+        });
+
         $("#btnguardarproducto").on("click",function(){
 
 
@@ -246,7 +278,9 @@
                           PrecioUnidad : $("#txtprecioUnidad").val(),
                           PrecioVenta : $("#txtprecioVenta").val(),
                           UnidadesEnExistencia : $("#txtunidadesEnExistencia").val(),
-                          CodigoProducto : $("#txtcodigoProducto").val()
+                          CodigoProducto : $("#txtcodigoProducto").val(),
+                          CategoriaConProducto : { Id :  $("#cbcategoriaConProducto option:selected").val()},
+
                       };
                       
                       
@@ -296,6 +330,7 @@
             $("#txtprecioVenta").val(data.precioVenta)
             $("#txtunidadesEnExistencia").val(data.unidadesEnExistencia)
             $("#txtcodigoProducto").val(data.codigoProducto)
+            $("#cbcategoriaConProducto").val(data.categoriaConProducto.id)
 
             console.log(data);
         })
@@ -349,6 +384,8 @@
             $("#txtprecioVenta").val("");
             $("#txtunidadesEnExistencia").val("");
             $("#txtcodigoProducto").val("");
+            $("#cbcategoriaConProducto").val($("#cbcategoriaConProducto option:first").val());
+
         }
           </script>
 }
