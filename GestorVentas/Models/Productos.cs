@@ -27,14 +27,18 @@ namespace GestorVentas.Models
         [Display(Name = "Codigo Producto")]
         public string CodigoProducto { get; set; }
 
+        [Required(ErrorMessage = "{0} es un campo obligatorio")]
+        [Display(Name = "Descripcion")]
+        public string Descripcion { get; set; }
+
 
 
         //[Display(Name = "Categoria")]
         //[JsonIgnore]
         //public int CategoriaConProductoId { get; set; }//Relacion con Categorias FK
-        [Display(Name = "Categoria")]
-        [JsonIgnore]
-        public Categorias oCategoria { get; set; }//Atributos de Navegacion
+        //[Display(Name = "Categoria")]
+        //[JsonIgnore]
+        //public Categorias oCategoria { get; set; }//Atributos de Navegacion
 
         //[Display(Name = "Proveedor")]
         //[JsonIgnore]
