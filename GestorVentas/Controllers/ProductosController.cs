@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GestorVentas.Controllers
 {
-    public class ProductoController : Controller
+    public class ProductosController : Controller
     {
-        Dto_Producto _daProducto = new Dto_Producto();
+        Dto_Productos _daProducto = new Dto_Productos(); 
 
         public IActionResult Index()
         {
@@ -16,13 +16,13 @@ namespace GestorVentas.Controllers
         [HttpGet]
         public JsonResult ListaProducto()
         {
-            List<Productos> oLista = new List<Productos>();
+            List<Producto> oLista = new List<Producto>();
             oLista = _daProducto.Listar();
             return Json(new { data = oLista });
         }
 
         [HttpPost]
-        public JsonResult GuardarProducto([FromBody] Productos obj)
+        public JsonResult GuardarProducto([FromBody] Producto obj)
         {
             string operacion = Request.Headers["operacion"];
             bool respuesta;

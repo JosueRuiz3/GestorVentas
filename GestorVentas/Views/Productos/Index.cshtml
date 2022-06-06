@@ -1,40 +1,43 @@
 ﻿<link rel="stylesheet" href="~/css/styleProducto.css" asp-append-version="true" />
 
 @{
-    ViewData["Title"] = "Producto";
-     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Productos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
-   <!-- ============================================================
+ <!-- ============================================================
     =ESTILOS PARA USO DE DATATABLES JS
-    =============================================================== -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css" >
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" >
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css" >
+    ===============================================================-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css">
+
     <!-- ============================================================
     =HEADER
-    =============================================================== -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.2/css/fixedHeader.dataTables.min.css" >
+    ===============================================================-->
+    <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.2/css/fixedHeader.dataTables.min.css">
 
 <div class="card">
     <div class="card-header">
-        Listado de Productos
+        Lista de productos
     </div>
     <div class="card-body">
+     @*   <button class="btn btn-success" id="btnCrear">Crear nuevo</button>
+        <hr />*@
 
         <div class="row">
             <div class="col-sm-12">
                 <table id="tbdata" class="table table-striped w-100 shadow" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>Producto</th>
-                            <th>P.Unidad</th>
-                            <th>P.Venta</th>
-                            <th>Existencia</th>
+                            <th>IdProducto</th>
                             <th>Codigo</th>
-                            <th>Descripcion</th>
+                            <th>Categoria</th>
+                            <th>Producto</th>
+                            <th>P.Compra</th>
+                            <th>P.Venta</th>
+                            <th>Existentencia</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -42,7 +45,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div>  
     </div>
 </div>
 
@@ -55,47 +58,46 @@
       </div>
       <div class="modal-body">
           <form class="needs-validation" novalidate>
-            <input id="txtidproducto" value="0" type="hidden" />
-            
+             <input id="txtidproducto" value="0" type="hidden" />
+            <div class="row">
+                <div class="col-6">
+                    <label for="exampleFormControlInput1" class="form-label">Codigo de barras</label>
+                    <input type="text" class="form-control form-control-sm" id="txtcodigobarras" required/>
+                    <div class="invalid-feedback">Ingrese el codigo de barras</div>
+                </div>
+                <div class="col-6">
+                    <label for="exampleFormControlInput1" class="form-label">Categoría</label>
+                    <select class="form-select form-select-sm" id="cbocategoria" required>
+                    </select>
+                    <div class="invalid-feedback">Seleccione categoria</div>
+                </div>
+            </div>
             <div class="row mt-2">
                 <div class="col-12">
-                    <label class="form-label">Producto</label>
+                    <label for="exampleFormControlInput1" class="form-label">Producto</label>
                     <input type="text" class="form-control form-control-sm" id="txtnombreProducto" required/>
-                    <div class="invalid-feedback">Ingrese el producto</div>
+                    <div class="invalid-feedback">Ingrese el nombre del producto</div>
                 </div>
-
-                <div class="col-12">
-                    <label class="form-label">Precio Unidad</label>
-                    <input type="text" class="form-control form-control-sm" id="txtprecioUnidad" required/>
-                    <div class="invalid-feedback">Ingrese el precio de la unidad</div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-4">
+                    <label for="exampleFormControlInput1" class="form-label">Precio Compra</label>
+                    <input type="text" class="form-control form-control-sm" id="txtpreciocompra" required/>
+                    <div class="invalid-feedback">Ingrese el precio compra</div>
                 </div>
-
-                 <div class="col-12">
-                    <label class="form-label">Precio Venta</label>
-                    <input type="text" class="form-control form-control-sm" id="txtprecioVenta" required/>
-                    <div class="invalid-feedback">Ingrese el precio de la venta</div>
+                <div class="col-4">
+                    <label for="exampleFormControlInput1" class="form-label">Precio Venta</label>
+                    <input type="text" class="form-control form-control-sm" id="txtprecioventa" required/>
+                    <div class="invalid-feedback">Ingrese el precio venta</div>
                 </div>
-
-                 <div class="col-12">
-                    <label class="form-label">En Existencia</label>
+                <div class="col-4">
+                    <label for="exampleFormControlInput1" class="form-label">En Existencia</label>
                     <input type="text" class="form-control form-control-sm" id="txtunidadesEnExistencia" required/>
-                    <div class="invalid-feedback">Ingrese la existencia de productos</div>
+                    <div class="invalid-feedback">Ingrese la existencia del producto</div>
                 </div>
-
-                 <div class="col-12">
-                    <label class="form-label">Codigo</label>
-                    <input type="text" class="form-control form-control-sm" id="txtcodigoProducto" required/>
-                    <div class="invalid-feedback">Ingrese el codigo del producto</div>
-                </div>
-
-                 <div class="col-12">
-                    <label class="form-label">Descripcion</label>
-                    <input type="text" class="form-control form-control-sm" id="txtdescripcion" required/>
-                    <div class="invalid-feedback">Ingrese la descripcion</div>
-                </div>
-
             </div>
           </form>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
@@ -108,7 +110,7 @@
 @section Scripts
 {
 
-    <!-- ============================================================
+     <!-- ============================================================
     =LIBRERIAS PARA USO DE DATATABLES JS
     ===============================================================-->
     <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>        
@@ -159,8 +161,7 @@
                         text: 'Exportar Excel',
                         extend: 'excelHtml5',
                         title: '',
-                        title: '',
-                        filename: 'Reporte Producto',
+                        filename: 'Reporte Productos',
                         exportOptions: {
                             columns: [ 1,2,3,4,5,6 ]
                         }
@@ -169,21 +170,25 @@
                 pageLength: 10,
                 responsive: true,
                 "ajax": {
-                    "url": '@Url.Action("ListaProducto", "Producto")',
+                    "url": '@Url.Action("ListaProducto", "Productos")',
                     "type": "GET",
                     "datatype": "json"
                 },
                 "columns": [
-                    { "data": "id" },
+                    { "data": "idProducto" },
+                    { "data": "codigo" },
+                    {
+                        "data": "oCategoria", "render": function (data) {
+                            return data.descripcion
+                        }
+                    },
                     { "data": "nombreProducto" },
-                    { "data": "precioUnidad" },
+                    { "data": "precioCompra" },
                     { "data": "precioVenta" },
                     { "data": "unidadesEnExistencia" },
-                    { "data": "codigoProducto" },
-                    { "data": "descripcion" },
                     {
                         "defaultContent": '<button class="btn btn-primary btn-editar btn-sm me-2"><i class="bi bi-pencil-fill"></i></button>' +
-                                          '<button class="btn btn-danger btn-eliminar btn-sm me-2"><i class="bi bi-trash-fill"></i></button>',
+                            '<button class="btn btn-danger btn-eliminar btn-sm"><i class="bi bi-trash-fill"></i></button>',
                         "orderable": false,
                         "searchable": false,
                         "width": "80px"
@@ -192,9 +197,9 @@
                 initComplete: function () {
                         var api = this.api();
  
-                        // Columna For each 
+                        // For each column
                         api.columns().eq(0).each(function (colIdx) {
-                                // Establecer la celda de cabecera para contener el elemento de entrada
+                                // Set the header cell to contain the input element
                                 var cell = $('.filters th').eq(
                                     $(api.column(colIdx).header()).index()
                                 );
@@ -205,25 +210,24 @@
                                      $(cell).html('<input type="text" placeholder="buscar..."/>');
                                 }
  
-                                // En cada pulsación de esta entrada
+                                // On every keypress in this input
                                 $('input', $('.filters th').eq($(api.column(colIdx).header()).index())).off('keyup change').on('keyup change', function (e) {
 
                                         e.stopPropagation();
  
-                                        // Obteniene el valor de búsqueda
+                                        // Get the search value
                                         $(this).attr('title', $(this).val());
-                                        var regexr = '({search})'; 
+                                        var regexr = '({search})'; //$(this).parents('th').find('select').val();
  
                                         var cursorPosition = this.selectionStart;
-                                        // Buscar ese valor en la columna
+                                        // Search the column for that value
                                         api.column(colIdx).search(
                                                 this.value != '' ? regexr.replace('{search}', '(((' + this.value + ')))') : '',
-                                                this.value != '',
                                                 this.value != '',
                                                 this.value == ''
                                             ).draw();
  
-                                        $(this).focus()[0].setSelectionRange(cursorPosition, cursorPosition, cursorPosition);
+                                        $(this).focus()[0].setSelectionRange(cursorPosition, cursorPosition);
                                     });
                             });
                 },
@@ -240,31 +244,49 @@
         
         })
 
+
+        jQuery.ajax({
+                url: '@Url.Action("ListaCategoria", "Categorias")',
+                type: "GET",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    $("<option>").attr({ "value": ""}).text("Seleccionar").appendTo("#cbocategoria");
+                    $.each(data.data, function (index, value) {
+                        $("<option>").attr({ "value": value.idCategoria }).text(value.descripcion).appendTo("#cbocategoria");
+                    });
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+        });
+  
+        
         $("#btnguardarproducto").on("click",function(){
 
+            //BUSCAR EN GOOGLE 2Validation · Bootstrap v5.0""
 
-            // Obtener todos los formularios a los que queremos aplicar estilos de validación 
-            // personalizados de Bootstrap
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
             var forms = document.querySelectorAll('.needs-validation')
             
-            // se crea un bucle sobre ellos y evita la sumisión
+            // Loop over them and prevent submission
             Array.prototype.slice.call(forms).forEach(function (form) {
             
                   if (form.checkValidity()) {
                       console.log("Listo para registrar");
                       var request_body = {
-                          Id : $("#txtidproducto").val(),
+                          IdProducto : $("#txtidproducto").val(),
+                          Codigo :$("#txtcodigobarras").val(),
+                          oCategoria : { IdCategoria :  $("#cbocategoria option:selected").val()},
                           NombreProducto : $("#txtnombreProducto").val(),
-                          PrecioUnidad : $("#txtprecioUnidad").val(),
-                          PrecioVenta : $("#txtprecioVenta").val(),
-                          UnidadesEnExistencia : $("#txtunidadesEnExistencia").val(),
-                          CodigoProducto : $("#txtcodigoProducto").val(),
-                          Descripcion : $("#txtdescripcion").val()
+                          PrecioCompra : $("#txtpreciocompra").val(),
+                          PrecioVenta : $("#txtprecioventa").val(),
+                          UnidadesEnExistencia : $("#txtunidadesEnExistencia").val()
                       };
                       
                       
                       jQuery.ajax({
-                          url: '@Url.Action("GuardarProducto", "Producto")',
+                          url: '@Url.Action("GuardarProducto", "Productos")',
                           type: "POST",
                           headers: {
                               operacion: operacion
@@ -295,7 +317,7 @@
 
         })
 
-        
+
         $("#tbdata tbody").on("click",".btn-editar",function(){
             operacion = "editar";
             $(".needs-validation").removeClass("was-validated")
@@ -304,13 +326,13 @@
             var filaSeleccionada = $(this).closest('tr');
             var data = tabla.row(filaSeleccionada).data();
 
-            $("#txtidproducto").val(data.id)
+            $("#txtidproducto").val(data.idProducto)
+            $("#txtcodigobarras").val(data.codigo)
+            $("#cbocategoria").val(data.oCategoria.idCategoria)
             $("#txtnombreProducto").val(data.nombreProducto)
-            $("#txtprecioUnidad").val(data.precioUnidad)
-            $("#txtprecioVenta").val(data.precioVenta)
+            $("#txtpreciocompra").val(data.precioCompra)
+            $("#txtprecioventa").val(data.precioVenta)
             $("#txtunidadesEnExistencia").val(data.unidadesEnExistencia)
-            $("#txtcodigoProducto").val(data.codigoProducto)
-            $("#txtdescripcion").val(data.descripcion)
 
             console.log(data);
         })
@@ -320,10 +342,11 @@
             var filaSeleccionada = $(this).closest('tr');
             var data = tabla.row(filaSeleccionada).data();
 
-            $("#txtidproducto").val(data.ii)
+            $("#txtidproducto").val(data.idProducto)
 
             Swal.fire({
               title: '¿Esta seguro de eliminar?',
+              //text: "You won't be able to revert this!",
               icon: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
@@ -334,7 +357,7 @@
 
                 if (result.isConfirmed) {
                       jQuery.ajax({
-                          url: '@Url.Action("EliminarProducto", "Producto")?idproducto='+data.id,
+                          url: '@Url.Action("EliminarProducto", "Productos")?idproducto='+data.idProducto,
                           type: "DELETE",
                           dataType: "json",
                           contentType: "application/json; charset=utf-8",
@@ -359,15 +382,12 @@
 
 
         function limpiarControles(){
-            $("#txtidproducto").val("");
+            $("#txtcodigobarras").val("");
+            $("#cbocategoria").val($("#cbocategoria option:first").val());
             $("#txtnombreProducto").val("");
-            $("#txtprecioUnidad").val("");
-            $("#txtprecioVenta").val("");
+            $("#txtpreciocompra").val("");
+            $("#txtprecioventa").val("");
             $("#txtunidadesEnExistencia").val("");
-            $("#txtcodigoProducto").val("");
-            $("#txtdescripcion").val("");
-
         }
-       
     </script>
 }

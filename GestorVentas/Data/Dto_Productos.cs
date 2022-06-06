@@ -1,41 +1,40 @@
-﻿using GestorVentas.Models;
+﻿using System.Data.SqlClient;
 using System.Data;
-using System.Data.SqlClient;
 using System.Globalization;
+using GestorVentas.Models;
 
 namespace GestorVentas.Data
 {
-    public class Dto_Producto
+    public class Dto_Productos
     {
-        public List<Productos> Listar()
+        public List<Producto> Listar()
         {
 
-            var oLista = new List<Productos>();
+            var oLista = new List<Producto>();
 
             var cn = new Connection();
 
-            using (var connection = new SqlConnection(cn.getCadenaSQL()))
+            using (var conexion = new SqlConnection(cn.getCadenaSQL()))
             {
-                connection.Open();
-                SqlCommand cmd = new SqlCommand("SP_Listar_Producto", connection);
+                conexion.Open();
+                SqlCommand cmd = new SqlCommand("SP_Listar_Productos", conexion);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 using (var dr = cmd.ExecuteReader())
                 {
                     while (dr.Read())
                     {
-                        oLista.Add(new Productos()
+                        oLista.Add(new Producto()
                         {
-                            Id = Convert.ToInt32(dr["Id"]),
+                            IdProducto = Convert.ToInt32(dr["IdProducto"]),
+                            Codigo = dr["Codigo"].ToString(),
+                            oCategoria = new Categorias() { IdCategoria = Convert.ToInt32(dr["IdCategoria"]), Descripcion = dr["DesCategoria"].ToString() },
                             NombreProducto = dr["NombreProducto"].ToString(),
-                            PrecioUnidad = Convert.ToDecimal(dr["PrecioUnidad"], new CultureInfo("es-PE")),
+                            PrecioCompra = Convert.ToDecimal(dr["PrecioCompra"], new CultureInfo("es-PE")),
                             PrecioVenta = Convert.ToDecimal(dr["PrecioVenta"], new CultureInfo("es-PE")),
                             UnidadesEnExistencia = Convert.ToInt32(dr["UnidadesEnExistencia"]),
-                            CodigoProducto = dr["CodigoProducto"].ToString(),
-                            Descripcion = dr["Descripcion"].ToString(),
-                            //oCategoria = new Categorias() { IdCategoria = Convert.ToInt32(dr["IdCategoria"]), Descripcion = dr["DesCategoria"].ToString() },
-
                         });
+
                     }
                 }
             }
@@ -43,8 +42,7 @@ namespace GestorVentas.Data
             return oLista;
         }
 
-
-        public bool Guardar(Productos obj)
+        public bool Guardar(Producto obj)
         {
             bool respuesta;
             var cn = new Connection();
@@ -55,13 +53,12 @@ namespace GestorVentas.Data
                 {
                     oconexion.Open();
                     SqlCommand cmd = new SqlCommand("SP_Guardar_Producto", oconexion);
+                    cmd.Parameters.AddWithValue("Codigo", obj.Codigo);
+                    cmd.Parameters.AddWithValue("IdCategoria", obj.oCategoria.IdCategoria);
                     cmd.Parameters.AddWithValue("NombreProducto", obj.NombreProducto);
-                    cmd.Parameters.AddWithValue("PrecioUnidad", obj.PrecioUnidad);
+                    cmd.Parameters.AddWithValue("PrecioCompra", obj.PrecioCompra);
                     cmd.Parameters.AddWithValue("PrecioVenta", obj.PrecioVenta);
                     cmd.Parameters.AddWithValue("UnidadesEnExistencia", obj.UnidadesEnExistencia);
-                    cmd.Parameters.AddWithValue("CodigoProducto", obj.CodigoProducto);
-                    cmd.Parameters.AddWithValue("Descripcion", obj.Descripcion);
-                    //cmd.Parameters.AddWithValue("IdCategoria", obj.oCategoria.IdCategoria);
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.ExecuteNonQuery();
@@ -75,24 +72,25 @@ namespace GestorVentas.Data
             return respuesta;
         }
 
-        public bool Editar(Productos obj)
+
+        public bool Editar(Producto obj)
         {
             bool respuesta;
             var cn = new Connection();
             try
             {
+
                 using (SqlConnection oconexion = new SqlConnection(cn.getCadenaSQL()))
                 {
                     oconexion.Open();
-                    SqlCommand cmd = new SqlCommand("SP_Actualizar_Producto", oconexion);
-                    cmd.Parameters.AddWithValue("Id", obj.Id);
+                    SqlCommand cmd = new SqlCommand("SP_Editar_Producto", oconexion);
+                    cmd.Parameters.AddWithValue("IdProducto", obj.IdProducto);
+                    cmd.Parameters.AddWithValue("Codigo", obj.Codigo);
+                    cmd.Parameters.AddWithValue("IdCategoria", obj.oCategoria.IdCategoria);
                     cmd.Parameters.AddWithValue("NombreProducto", obj.NombreProducto);
-                    cmd.Parameters.AddWithValue("PrecioUnidad", obj.PrecioUnidad);
+                    cmd.Parameters.AddWithValue("PrecioCompra", obj.PrecioCompra);
                     cmd.Parameters.AddWithValue("PrecioVenta", obj.PrecioVenta);
                     cmd.Parameters.AddWithValue("UnidadesEnExistencia", obj.UnidadesEnExistencia);
-                    cmd.Parameters.AddWithValue("CodigoProducto", obj.CodigoProducto);
-                    cmd.Parameters.AddWithValue("Descripcion", obj.Descripcion);
-                    //cmd.Parameters.AddWithValue("IdCategoria", obj.oCategoria.IdCategoria);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.ExecuteNonQuery();
                     respuesta = true;
@@ -105,7 +103,7 @@ namespace GestorVentas.Data
             return respuesta;
         }
 
-        public bool Eliminar(int id)
+        public bool Eliminar(int idProducto)
         {
             bool respuesta;
             var cn = new Connection();
@@ -115,7 +113,7 @@ namespace GestorVentas.Data
                 {
                     oconexion.Open();
                     SqlCommand cmd = new SqlCommand("SP_Eliminar_Producto", oconexion);
-                    cmd.Parameters.AddWithValue("Id", id);
+                    cmd.Parameters.AddWithValue("IdProducto", idProducto);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.ExecuteNonQuery();
                     respuesta = true;
@@ -129,4 +127,3 @@ namespace GestorVentas.Data
         }
     }
 }
-
