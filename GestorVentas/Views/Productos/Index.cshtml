@@ -206,7 +206,7 @@
                                 var title = $(cell).text();
 
                                 //especificar que columna debe mostrar la caja de filtro
-                                if ($(api.column(colIdx).header()).index() >= 0 &&  $(api.column(colIdx).header()).index() != 6) {
+                                if ($(api.column(colIdx).header()).index() >= 0 &&  $(api.column(colIdx).header()).index() != 3 &&  $(api.column(colIdx).header()).index() != 4 &&  $(api.column(colIdx).header()).index() != 5 &&  $(api.column(colIdx).header()).index() != 6) {
                                      $(cell).html('<input type="text" placeholder="buscar..."/>');
                                 }
  
