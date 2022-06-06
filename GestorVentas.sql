@@ -372,6 +372,7 @@ CREATE TABLE Productos(
 	PrecioCompra DECIMAL(10,2),
 	PrecioVenta DECIMAL(10,2),
 	UnidadesEnExistencia  INT,
+	IdProveedor INT, 
 
 	FechaCreacion DATETIME DEFAULT GETDATE() NOT NULL
 
@@ -390,10 +391,12 @@ BEGIN
 	p.NombreProducto,
 	p.PrecioCompra,
 	p.PrecioVenta,
-	p.UnidadesEnExistencia
+	p.UnidadesEnExistencia,
+	pr.IdProveedor, pr.Compañia[ComProveedor]
 
 	FROM  Productos p
 	INNER JOIN Categorias c ON c.IdCategoria = p.IdCategoria
+	INNER JOIN Proveedores pr ON pr.IdProveedor = p.IdProveedor
 	ORDER BY p.IdProducto DESC
 END
 GO
@@ -405,13 +408,14 @@ CREATE OR ALTER PROCEDURE SP_Guardar_Producto
 	@NombreProducto VARCHAR(100),
 	@PrecioCompra DECIMAL(10,2),
 	@PrecioVenta DECIMAL(10,2),
-	@UnidadesEnExistencia  INT
+	@UnidadesEnExistencia  INT,
+	@IdProveedor INT
 	AS
 
 BEGIN
 	
-	INSERT INTO Productos(Codigo,IdCategoria,NombreProducto,PrecioCompra,PrecioVenta,UnidadesEnExistencia) 
-	VALUES(@Codigo,@IdCategoria,@NombreProducto,@PrecioCompra,@PrecioVenta,@UnidadesEnExistencia)
+	INSERT INTO Productos(Codigo,IdCategoria,NombreProducto,PrecioCompra,PrecioVenta,UnidadesEnExistencia, IdProveedor) 
+	VALUES(@Codigo,@IdCategoria,@NombreProducto,@PrecioCompra,@PrecioVenta,@UnidadesEnExistencia, @IdProveedor)
 
 END
 GO
@@ -424,12 +428,13 @@ CREATE OR ALTER PROCEDURE SP_Editar_Producto
 	@NombreProducto VARCHAR(100),
 	@PrecioCompra DECIMAL(10,2),
 	@PrecioVenta DECIMAL(10,2),
-	@UnidadesEnExistencia  INT
+	@UnidadesEnExistencia  INT,
+	@IdProveedor INT
 	AS
 
 BEGIN
-	update Productos set Codigo = @Codigo, IdCategoria = @IdCategoria, NombreProducto = @NombreProducto, PrecioCompra = @PrecioCompra,
-	PrecioVenta = @PrecioVenta, UnidadesEnExistencia = @UnidadesEnExistencia WHERE IdProducto = @IdProducto
+	UPDATE Productos set Codigo = @Codigo, IdCategoria = @IdCategoria, NombreProducto = @NombreProducto, PrecioCompra = @PrecioCompra,
+	PrecioVenta = @PrecioVenta, UnidadesEnExistencia = @UnidadesEnExistencia, IdProveedor = @IdProveedor WHERE IdProducto = @IdProducto
 
 END
 GO
@@ -452,7 +457,8 @@ EXEC SP_Guardar_Producto
 	@NombreProducto = 'Galleta Pozuelo',
 	@PrecioCompra = '1070.00',
 	@PrecioVenta = '1570.00',
-	@UnidadesEnExistencia = 25 
+	@UnidadesEnExistencia = 25,
+	@IdProveedor = 2
 GO
 
 
@@ -462,7 +468,8 @@ EXEC SP_Guardar_Producto
 	@NombreProducto = 'ARROZ TIO PELON',
 	@PrecioCompra = '1070.00',
 	@PrecioVenta = '1570.00',
-	@UnidadesEnExistencia = 35 
+	@UnidadesEnExistencia = 35,
+	@IdProveedor = 3
 GO
 
 EXEC SP_Listar_Productos;

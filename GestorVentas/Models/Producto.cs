@@ -19,5 +19,6 @@ namespace GestorVentas.Models
 
         public int UnidadesEnExistencia { get; set; }
 
+        public Proveedores oProveedores { get; set; }
     }
 }

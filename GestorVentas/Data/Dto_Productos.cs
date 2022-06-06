@@ -33,6 +33,7 @@ namespace GestorVentas.Data
                             PrecioCompra = Convert.ToDecimal(dr["PrecioCompra"], new CultureInfo("es-PE")),
                             PrecioVenta = Convert.ToDecimal(dr["PrecioVenta"], new CultureInfo("es-PE")),
                             UnidadesEnExistencia = Convert.ToInt32(dr["UnidadesEnExistencia"]),
+                            oProveedores = new Proveedores() { IdProveedor = Convert.ToInt32(dr["IdProveedor"]), Compañia = dr["ComProveedor"].ToString() }
                         });
 
                     }
@@ -59,6 +60,7 @@ namespace GestorVentas.Data
                     cmd.Parameters.AddWithValue("PrecioCompra", obj.PrecioCompra);
                     cmd.Parameters.AddWithValue("PrecioVenta", obj.PrecioVenta);
                     cmd.Parameters.AddWithValue("UnidadesEnExistencia", obj.UnidadesEnExistencia);
+                    cmd.Parameters.AddWithValue("IdProveedor", obj.oProveedores.IdProveedor);
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.ExecuteNonQuery();
@@ -91,6 +93,7 @@ namespace GestorVentas.Data
                     cmd.Parameters.AddWithValue("PrecioCompra", obj.PrecioCompra);
                     cmd.Parameters.AddWithValue("PrecioVenta", obj.PrecioVenta);
                     cmd.Parameters.AddWithValue("UnidadesEnExistencia", obj.UnidadesEnExistencia);
+                    cmd.Parameters.AddWithValue("IdProveedor", obj.oProveedores.IdProveedor);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.ExecuteNonQuery();
                     respuesta = true;
