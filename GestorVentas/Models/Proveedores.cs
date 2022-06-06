@@ -5,7 +5,7 @@ namespace GestorVentas.Models
 {
     public class Proveedores
     {
-        public int Id { get; set; }
+        public int IdProveedor { get; set; }
 
         public string Compañia { get; set; }
 

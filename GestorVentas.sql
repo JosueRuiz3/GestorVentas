@@ -160,6 +160,7 @@ BEGIN
 END
 GO 
 
+
 EXEC SP_Guardar_Login
 	@Usuario = 'andy',
 	@Contraseña = 'andy123'
@@ -238,6 +239,7 @@ BEGIN
 END
 GO 
 
+
 EXEC SP_Guardar_Categoria
 	@NombreCategoria = 'Bebidas',
 	@Descripcion = 'Gaseosas, Café, té, cervezas y maltas'
@@ -267,25 +269,26 @@ GO
 --=============================================================================================
 
 CREATE TABLE Proveedores(
-	Id INT IDENTITY(1,1),
+	IdProveedor INT IDENTITY(1,1),
 	Compañia VARCHAR(20) NOT NULL,
 	NombreRepresentante VARCHAR(20) NOT NULL,
 	Telefono VARCHAR(20) NOT NULL,
 
 	FechaCreacion DATETIME DEFAULT GETDATE() NOT NULL
 
-	CONSTRAINT PK_Proveedores PRIMARY KEY(Id)
+	CONSTRAINT PK_Proveedores PRIMARY KEY(IdProveedor)
 );
+
 
 --=============================================================================================
 -- PROCEDIMIENTOS ALMACENADOS -> PROVEEDORES
 --=============================================================================================
 
-CREATE PROCEDURE SP_Listar_Proveedores
+CREATE OR ALTER PROCEDURE SP_Listar_Proveedores
 	AS
 BEGIN	
 
-	SELECT Id, Compañia, NombreRepresentante, Telefono FROM Proveedores
+	SELECT IdProveedor, Compañia, NombreRepresentante, Telefono FROM Proveedores
 
 END
 GO
@@ -306,7 +309,7 @@ GO
 
 
 CREATE OR ALTER PROCEDURE SP_Actualizar_Proveedores
-	@Id INT,
+	@IdProveedor INT,
 	@Compañia VARCHAR(20), 
 	@NombreRepresentante VARCHAR(20),
 	@Telefono VARCHAR(20)
@@ -319,25 +322,28 @@ BEGIN
 		NombreRepresentante = @NombreRepresentante, 
 		Telefono = @Telefono
 	WHERE
-		Id = @Id
+		IdProveedor = @IdProveedor
 END
 GO
 
+
 CREATE OR ALTER PROCEDURE SP_Eliminar_Proveedores
-	@Id INT
+	@IdProveedor INT
 	AS
 BEGIN
 
-	DELETE FROM Proveedores WHERE Id = @Id
+	DELETE FROM Proveedores WHERE IdProveedor = @IdProveedor
 
 END
 GO 
+
 
 EXEC SP_Guardar_Proveedores
 	@Compañia = 'Coca Cola', 
 	@NombreRepresentante = 'Veronica Perez',
 	@Telefono = '2209-8912'
 GO
+
 
 EXEC SP_Guardar_Proveedores
 	@Compañia = 'Pozuelo', 
@@ -354,12 +360,10 @@ GO
 EXEC SP_Listar_Proveedores
 GO
 
-
-
-
 --=============================================================================================
 -- TABLA -> PRODUCTO
 --=============================================================================================
+
 CREATE TABLE Productos(
 	IdProducto INT IDENTITY(1,1),
 	Codigo VARCHAR(100),
@@ -374,6 +378,7 @@ CREATE TABLE Productos(
 	CONSTRAINT PK_Producto PRIMARY KEY(IdProducto)
 )
 GO
+
 
 CREATE OR ALTER PROCEDURE SP_Listar_Productos
 	AS
@@ -393,6 +398,7 @@ BEGIN
 END
 GO
 
+
 CREATE OR ALTER PROCEDURE SP_Guardar_Producto
 	@Codigo VARCHAR(100),
 	@IdCategoria INT,
@@ -409,6 +415,7 @@ BEGIN
 
 END
 GO
+
 
 CREATE OR ALTER PROCEDURE SP_Editar_Producto
 	@IdProducto INT,
@@ -427,6 +434,7 @@ BEGIN
 END
 GO
 
+
 CREATE OR ALTER PROCEDURE SP_Eliminar_Producto
 	@IdProducto INT
 	AS
@@ -436,6 +444,7 @@ BEGIN
 
 END
 GO 
+
 
 EXEC SP_Guardar_Producto
 	@Codigo = 'gpc2ax',

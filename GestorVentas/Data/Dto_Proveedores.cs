@@ -25,7 +25,7 @@ namespace GestorVentas.Data
                     {
                         oLista.Add(new Proveedores()
                         {
-                            Id = Convert.ToInt32(dr["Id"]),
+                            IdProveedor = Convert.ToInt32(dr["IdProveedor"]),
                             Compañia = dr["Compañia"].ToString(),
                             NombreRepresentante = dr["NombreRepresentante"].ToString(),
                             Telefono = dr["Telefono"].ToString()
@@ -74,7 +74,7 @@ namespace GestorVentas.Data
                 {
                     oconexion.Open();
                     SqlCommand cmd = new SqlCommand("SP_Actualizar_Proveedores", oconexion);
-                    cmd.Parameters.AddWithValue("Id", obj.Id);
+                    cmd.Parameters.AddWithValue("IdProveedor", obj.IdProveedor);
                     cmd.Parameters.AddWithValue("Compañia", obj.Compañia);
                     cmd.Parameters.AddWithValue("NombreRepresentante", obj.NombreRepresentante);
                     cmd.Parameters.AddWithValue("Telefono", obj.Telefono);
@@ -100,7 +100,7 @@ namespace GestorVentas.Data
                 {
                     oconexion.Open();
                     SqlCommand cmd = new SqlCommand("SP_Eliminar_Proveedores", oconexion);
-                    cmd.Parameters.AddWithValue("Id", id);
+                    cmd.Parameters.AddWithValue("IdProveedor", id);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.ExecuteNonQuery();
                     respuesta = true;

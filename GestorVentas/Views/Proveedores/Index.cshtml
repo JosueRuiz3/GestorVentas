@@ -148,12 +148,10 @@
                 "ajax": {
                     "url": '@Url.Action("ListaProveedores", "Proveedores")',
                     "type": "GET",
-                    "datatype": "json",
-                    "datatype": "json",
                     "datatype": "json"
                 },
                 "columns": [
-                    { "data": "id" },
+                    { "data": "idProveedor" },
                     { "data": "compañia" },
                     { "data": "nombreRepresentante" },
                     { "data": "telefono" },
@@ -228,7 +226,7 @@
                   if (form.checkValidity()) {
                       console.log("Listo para registrar");
                       var request_body = {
-                          Id : $("#txtidproveedor").val(),
+                          IdProveedor : $("#txtidproveedor").val(),
                           Compañia : $("#txtcompañia").val(),
                           NombreRepresentante : $("#txtnombreRepresentante").val(),
                           Telefono : $("#txttelefono").val()
@@ -275,7 +273,7 @@
             var filaSeleccionada = $(this).closest('tr');
             var data = tabla.row(filaSeleccionada).data();
 
-            $("#txtidproveedor").val(data.id)
+            $("#txtidproveedor").val(data.idProveedor)
             $("#txtcompañia").val(data.compañia)
             $("#txtnombreRepresentante").val(data.nombreRepresentante)
             $("#txttelefono").val(data.telefono)
@@ -288,7 +286,7 @@
             var filaSeleccionada = $(this).closest('tr');
             var data = tabla.row(filaSeleccionada).data();
 
-            $("#txtidproveedor").val(data.ii)
+            $("#txtidproveedor").val(data.idProveedor)
 
             Swal.fire({
               title: '¿Esta seguro de eliminar?',
@@ -302,7 +300,7 @@
 
                 if (result.isConfirmed) {
                       jQuery.ajax({
-                          url: '@Url.Action("EliminarProveedores", "Proveedores")?idcategoria='+data.id,
+                          url: '@Url.Action("EliminarProveedores", "Proveedores")?idcategoria='+data.idProveedor,
                           type: "DELETE",
                           dataType: "json",
                           contentType: "application/json; charset=utf-8",
