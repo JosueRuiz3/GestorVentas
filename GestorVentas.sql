@@ -380,6 +380,9 @@ CREATE TABLE Productos(
 )
 GO
 
+--=============================================================================================
+-- PROCEDIMIENTOS ALMACENADOS -> PRODUCTOS
+--=============================================================================================
 
 CREATE OR ALTER PROCEDURE SP_Listar_Productos
 	AS
@@ -473,3 +476,96 @@ EXEC SP_Guardar_Producto
 GO
 
 EXEC SP_Listar_Productos;
+
+--=============================================================================================
+-- TABLA -> CLIENTES
+--=============================================================================================
+
+CREATE TABLE Clientes(
+	IdCliente INT IDENTITY(1,1),
+	Nombre VARCHAR(20) NOT NULL,
+	Apellido VARCHAR(20) NOT NULL,
+	Direccion VARCHAR(50) NOT NULL,
+	Telefono VARCHAR(20) NOT NULL,
+	Fax VARCHAR(20) NOT NULL,
+
+	FechaCreacion DATETIME DEFAULT GETDATE() NOT NULL
+
+	CONSTRAINT PK_Cliente PRIMARY KEY(IdCliente)
+);
+GO
+
+--=============================================================================================
+-- PROCEDIMIENTOS ALMACENADOS -> CLIENTES
+--=============================================================================================
+
+CREATE OR ALTER PROCEDURE SP_Listar_Clientes
+	AS
+BEGIN	
+
+	SELECT IdCliente, Nombre, Apellido, Direccion, Telefono, Fax FROM Clientes
+
+END
+GO
+
+
+CREATE OR ALTER PROCEDURE SP_Guardar_Clientes
+	@Nombre VARCHAR(20), 
+	@Apellido VARCHAR(20),
+	@Direccion VARCHAR(50),
+	@Telefono VARCHAR(20),
+	@Fax VARCHAR(20)
+
+	AS
+BEGIN
+	
+	INSERT INTO Clientes(Nombre, Apellido, Direccion, Telefono, Fax)
+	VALUES(@Nombre, @Apellido, @Direccion, @Telefono, @Fax)
+
+END
+GO
+
+
+CREATE OR ALTER PROCEDURE SP_Actualizar_Clientes
+	@IdCliente INT,
+	@Nombre VARCHAR(20), 
+	@Apellido VARCHAR(20),
+	@Direccion VARCHAR(50),
+	@Telefono VARCHAR(20),
+	@Fax VARCHAR(20)
+	AS
+BEGIN
+
+	UPDATE Clientes
+	SET
+		Nombre = @Nombre, 
+		Apellido = @Apellido, 
+		Direccion = @Direccion, 
+		Telefono = @Telefono,
+		Fax = @Fax
+	WHERE
+		IdCliente = @IdCliente
+END
+GO
+
+
+CREATE OR ALTER PROCEDURE SP_Eliminar_Clientes
+	@IdCliente INT
+	AS
+BEGIN
+
+	DELETE FROM Clientes WHERE IdCliente = @IdCliente
+
+END
+GO 
+
+
+EXEC SP_Guardar_Clientes
+	@Nombre = 'Veronica', 
+	@Apellido = 'Perez',
+	@Direccion = 'Samara',
+	@Telefono  = '7623-0923',
+	@Fax  = '7623-0923'
+GO
+
+EXEC SP_Listar_Clientes;

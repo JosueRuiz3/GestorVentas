@@ -5,9 +5,11 @@ namespace GestorVentas.Models
 {
     public class Clientes
     {
-        public int Id { get; set; }
+        public int IdCliente { get; set; }
 
-        public string NombreCliente { get; set; }
+        public string Nombre { get; set; }
+
+        public string Apellido { get; set; }
 
         public string Direccion { get; set; }
 

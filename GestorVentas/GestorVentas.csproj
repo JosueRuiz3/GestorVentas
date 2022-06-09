@@ -10,6 +10,7 @@
   <ItemGroup>
     <None Remove="appsettings.json~RF997249a.TMP" />
     <None Remove="Controllers\ProveedoresController.cs~RF6101fa0.TMP" />
+    <None Remove="Models\Clientes.cs~RF4aa95b8.TMP" />
     <None Remove="Models\Login.cs~RF96ecd25.TMP" />
     <None Remove="Models\Producto.cs~RF93b53b.TMP" />
     <None Remove="Models\Proveedores.cs~RF72ef57.TMP" />

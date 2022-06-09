@@ -1,13 +1,9 @@
-﻿
-<link rel="stylesheet" href="~/css/styletable.css" asp-append-version="true" />
-
-   
+﻿<link rel="stylesheet" href="~/css/styletable.css" asp-append-version="true"/>
 
 @{
-    ViewData["Title"] = "Categorias";
-     Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "Clientes";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 
    <!-- ============================================================
     =ESTILOS PARA USO DE DATATABLES JS
@@ -22,18 +18,21 @@
 
 <div class="card">
     <div class="card-header">
-        Listado de categorias
+        Listado de Clientes
     </div>
-    <div class="card-body">
 
+    <div class="card-body">
         <div class="row">
             <div class="col-sm-12">
                 <table id="tbdata" class="table table-striped w-100 shadow" style="width:100%">
                     <thead>
                         <tr>
-                            <th>IdCategoria</th>
-                            <th>Categoria</th>
-                            <th>Descripcion</th>
+                            <th>IdCliente</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Direccion</th>
+                            <th>Telefono</th>
+                            <th>Fax</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -45,28 +44,46 @@
     </div>
 </div>
 
-<div id="modalCategoria" class="modal" tabindex="-1" data-bs-backdrop="static">
+<div id="modalCliente" class="modal" tabindex="-1" data-bs-backdrop="static">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Detalle Categoria</h5>
+        <h5 class="modal-title">Detalle Cliente</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
           <form class="needs-validation" novalidate>
-            <input id="txtidcategoria" value="0" type="hidden" />
+            <input id="txtidcliente" value="0" type="hidden" />
             
             <div class="row mt-2">
                 <div class="col-12">
-                    <label class="form-label">Categoria</label>
-                    <input type="text" class="form-control form-control-sm" id="txtnombreCategoria" required/>
-                    <div class="invalid-feedback">Ingrese la descripcion</div>
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control form-control-sm" id="txtnombre" required/>
+                    <div class="invalid-feedback">Ingrese el nombre</div>
                 </div>
 
                 <div class="col-12">
-                    <label class="form-label">Descripción</label>
-                    <input type="text" class="form-control form-control-sm" id="txtdescripcion" required/>
-                    <div class="invalid-feedback">Ingrese la descripcion</div>
+                    <label class="form-label">Apellido</label>
+                    <input type="text" class="form-control form-control-sm" id="txtapellido" required/>
+                    <div class="invalid-feedback">Ingrese el apellido</div>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label">Direccion</label>
+                    <input type="text" class="form-control form-control-sm" id="txtdireccion" required/>
+                    <div class="invalid-feedback">Ingrese la direccion</div>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label">Telefono</label>
+                    <input type="text" class="form-control form-control-sm" id="txttelefono" required/>
+                    <div class="invalid-feedback">Ingrese el telefono</div>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label">Fax</label>
+                    <input type="text" class="form-control form-control-sm" id="txtfax" required/>
+                    <div class="invalid-feedback">Ingrese el fax</div>
                 </div>
 
             </div>
@@ -74,7 +91,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
-        <button id="btnguardarcategoria" type="button" class="btn btn-primary">Guardar</button>
+        <button id="btnguardarcliente" type="button" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>
@@ -125,8 +142,8 @@
                             operacion = "crear";
                             limpiarControles();
                             $(".needs-validation").removeClass("was-validated")
-                            $("#txtidcategoria").val("0");
-                            $("#modalCategoria").modal("show");
+                            $("#txtidcliente").val("0");
+                            $("#modalCliente").modal("show");
 
                         }
                     },
@@ -137,21 +154,24 @@
                         title: '',
                         filename: 'Reporte Categorias',
                         exportOptions: {
-                            columns: [ 1,2 ]
+                            columns: [ 1,2,3,4,5 ]
                         }
                     },'pageLength'
                 ],
                 pageLength: 10,
                 responsive: true,
                 "ajax": {
-                    "url": '@Url.Action("ListaCategoria", "Categorias")',
+                    "url": '@Url.Action("ListaCliente", "Clientes")',
                     "type": "GET",
                     "datatype": "json"
                 },
                 "columns": [
-                    { "data": "idCategoria" },
-                    { "data": "nombreCategoria" },
-                    { "data": "descripcion" },
+                    { "data": "idCliente" },
+                    { "data": "nombre" },
+                    { "data": "apellido" },
+                    { "data": "direccion" },
+                    { "data": "telefono" },
+                    { "data": "fax" },
                     {
                         "defaultContent": '<button class="btn btn-primary btn-editar btn-sm me-2"><i class="bi bi-pencil-fill"></i></button>' +
                                           '<button class="btn btn-danger btn-eliminar btn-sm me-2"><i class="bi bi-trash-fill"></i></button>',
@@ -172,7 +192,7 @@
                                 var title = $(cell).text();
 
                                 //especificar que columna debe mostrar la caja de filtro
-                                if ($(api.column(colIdx).header()).index() >= 0 &&  $(api.column(colIdx).header()).index() != 1 &&  $(api.column(colIdx).header()).index() != 2) {
+                                if ($(api.column(colIdx).header()).index() >= 0 &&  $(api.column(colIdx).header()).index() != 5 ) {
                                      $(cell).html('<input type="text" placeholder="buscar..."/>');
                                 }
  
@@ -210,7 +230,7 @@
         
         })
 
-        $("#btnguardarcategoria").on("click",function(){
+        $("#btnguardarcliente").on("click",function(){
 
 
             // Obtener todos los formularios a los que queremos aplicar estilos de validación 
@@ -223,14 +243,17 @@
                   if (form.checkValidity()) {
                       console.log("Listo para registrar");
                       var request_body = {
-                          IdCategoria : $("#txtidcategoria").val(),
-                          NombreCategoria : $("#txtnombreCategoria").val(),
-                          Descripcion : $("#txtdescripcion").val()
+                          IdCliente : $("#txtidcliente").val(),
+                          Nombre : $("#txtnombre").val(),
+                          Apellido : $("#txtapellido").val(),
+                          Direccion : $("#txtdireccion").val(),
+                          Telefono : $("#txttelefono").val(),
+                          Fax : $("#txtfax").val()
                       };
                       
                       
                       jQuery.ajax({
-                          url: '@Url.Action("GuardarCategoria", "Categorias")',
+                          url: '@Url.Action("GuardarCliente", "Clientes")',
                           type: "POST",
                           headers: {
                               operacion: operacion
@@ -243,7 +266,7 @@
                       
                               if(data.respuesta){
                                   tabla.ajax.reload();
-                                  $("#modalCategoria").modal("hide");
+                                  $("#modalCliente").modal("hide");
                               }
                           },
                           error: function (error) {
@@ -265,14 +288,17 @@
         $("#tbdata tbody").on("click",".btn-editar",function(){
             operacion = "editar";
             $(".needs-validation").removeClass("was-validated")
-            $("#modalCategoria").modal("show");
+            $("#modalCliente").modal("show");
 
             var filaSeleccionada = $(this).closest('tr');
             var data = tabla.row(filaSeleccionada).data();
 
-            $("#txtidcategoria").val(data.idCategoria)
-            $("#txtnombreCategoria").val(data.nombreCategoria)
-            $("#txtdescripcion").val(data.descripcion)
+            $("#txtidcliente").val(data.idCliente)
+            $("#txtnombre").val(data.nombre)
+            $("#txtapellido").val(data.apellido)
+            $("#txtdireccion").val(data.direccion)
+            $("#txttelefono").val(data.telefono)
+            $("#txtfax").val(data.fax)
 
             console.log(data);
         })
@@ -282,7 +308,7 @@
             var filaSeleccionada = $(this).closest('tr');
             var data = tabla.row(filaSeleccionada).data();
 
-            $("#txtidcategoria").val(data.idCategoria)
+            $("#txtidcliente").val(data.idCliente)
 
             Swal.fire({
               title: '¿Esta seguro de eliminar?',
@@ -296,7 +322,7 @@
 
                 if (result.isConfirmed) {
                       jQuery.ajax({
-                          url: '@Url.Action("EliminarCategoria", "Categorias")?idcategoria='+data.idCategoria,
+                          url: '@Url.Action("EliminarCliente", "Clientes")?idcliente='+data.idCliente,
                           type: "DELETE",
                           dataType: "json",
                           contentType: "application/json; charset=utf-8",
@@ -321,8 +347,11 @@
 
 
         function limpiarControles(){
-            $("#txtnombreCategoria").val("");
-            $("#txtdescripcion").val("");
+            $("#txtnombre").val("")
+            $("#txtapellido").val("")
+            $("#txtdireccion").val("")
+            $("#txttelefono").val("")
+            $("#txtfax").val("")
         }
        
     </script>
