@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\css\dropdown.css~RF12dc6a3.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="appsettings.json~RF997249a.TMP" />
     <None Remove="Controllers\ProveedoresController.cs~RF6101fa0.TMP" />
     <None Remove="Models\Clientes.cs~RF4aa95b8.TMP" />
