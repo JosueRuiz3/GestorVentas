@@ -569,3 +569,137 @@ EXEC SP_Guardar_Clientes
 GO
 
 EXEC SP_Listar_Clientes;
+
+
+--=============================================================================================
+-- TABLA -> FACTURACION
+--=============================================================================================
+
+CREATE TABLE Facturacion(
+	IdFacturacion INT IDENTITY(1,1),
+	ClienteId INT,
+	NumDocumento VARCHAR(50),
+	DocCliente VARCHAR(50),
+	MontoPagoCon DECIMAL(10,2),
+	MontoCambio DECIMAL(10,2),
+	MontoSubTotal DECIMAL(10,2),
+	MontoIVA DECIMAL(10,2),
+	MontoTotal DECIMAL(10,2),
+
+	FechaCreacion DATETIME DEFAULT GETDATE() NOT NULL
+
+	CONSTRAINT PK_Facturacion PRIMARY KEY(IdFacturacion)
+);
+GO
+
+
+--=============================================================================================
+-- TABLA -> DetalleVenta
+--=============================================================================================
+
+CREATE TABLE DetalleVenta(
+	IdDatelleVenta INT IDENTITY(1,1),
+	FacturacionId INT,
+	ProductoId INT,
+	ClienteId INT,
+	PrecioVenta DECIMAL(10,2),
+	Cantidad INT,
+	TOTAL DECIMAL(10,2),
+
+	FechaCreacion DATETIME DEFAULT GETDATE() NOT NULL
+
+	CONSTRAINT PK_DetalleVenta PRIMARY KEY(IdDatelleVenta)
+)
+GO
+
+
+
+--=============================================================================================
+-- PROCEDIMIENTOS ALMACENADOS -> REGISTAR VENTA
+--=============================================================================================
+
+CREATE PROCEDURE SP_Registrar_Venta(
+	@Venta_xml XML,
+	@NroDocumento VARCHAR(6) OUTPUT
+	)
+	AS
+BEGIN
+	
+	DECLARE @facturacion TABLE(
+		ClienteId INT,
+		NumDocumento VARCHAR(50),
+		DocCliente VARCHAR(50),
+		MontoPagoCon DECIMAL(10,2),
+		MontoCambio DECIMAL(10,2),
+		MontoSubTotal DECIMAL(10,2),
+		MontoIVA DECIMAL(10,2),
+		MontoTotal DECIMAL(10,2)
+	)
+
+	DECLARE @detalleVenta TABLE(
+		FacturacionId INT,
+		ProductoId INT,
+		ClienteId INT,
+		PrecioVenta DECIMAL(10,2),
+		Cantidad INT,
+		TOTAL DECIMAL(10,2)
+	)
+
+	BEGIN TRY
+		BEGIN TRANSACTION
+
+		INSERT INTO @facturacion(ClienteId, NumDocumento, DocCliente, MontoPagoCon, MontoCambio, MontoSubTotal, MontoIVA, MontoTotal)
+		SELECT 
+			nodo.elemento.value('ClienteId[1]','INT') AS ClienteId,
+			nodo.elemento.value('NumDocumento[1]','VARCHAR(50)') AS NumDocumento,
+			nodo.elemento.value('DocCliente[1]','VARCHAR(50) ') AS DocCliente,
+			nodo.elemento.value('MontoPagoCon[1]','DECIMAL(10,2)') AS MontoPagoCon,
+			nodo.elemento.value('MontoCambio[1]','DECIMAL(10,2)') AS MontoCambio,
+			nodo.elemento.value('MontoSubTotal[1]','DECIMAL(10,2)') AS MontoSubTotal,
+			nodo.elemento.value('MontoIVA[1]','DECIMAL(10,2)') AS MontoIVA,
+			nodo.elemento.value('MontoTotal[1]','DECIMAL(10,2)') AS MontoTotal
+		FROM @Venta_xml.nodes('Facturacion') nodo(elemento)
+
+		INSERT INTO @detalleVenta(FacturacionId, ProductoId, ClienteId, PrecioVenta, Cantidad, TOTAL)
+		SELECT 
+			nodo.elemento.value('FacturacionId[1]','INT') AS FacturacionId,
+			nodo.elemento.value('ProductoId[1]','INT') AS ProductoId,
+			nodo.elemento.value('ClienteId[1]','INT') AS ClienteId,
+			nodo.elemento.value('PrecioVenta[1]','DECIMAL(10,2)') AS PrecioVenta,
+			nodo.elemento.value('Cantidad[1]','INT') AS Cantidad,
+			nodo.elemento.value('TOTAL[1]','DECIMAL(10,2)') AS TOTAL
+		FROM @Venta_xml.nodes('Facturacion/DetalleVenta/Item') nodo(elemento)
+
+		--================================================
+		-- EMPIEZA EL REGISTRO DE LA VENTA
+		--================================================
+		DECLARE @identity AS TABLE(ID INT)
+		DECLARE @id INT = (SELECT ISNULL(MAX(IdFacturacion), 0) + 1 FROM Facturacion)
+		DECLARE @tempnrodocumento VARCHAR(50) = RIGHT('000000' + CONVERT(VARCHAR(MAX), @id), 6)
+
+		INSERT INTO Facturacion(ClienteId, NumDocumento, DocCliente, MontoPagoCon, MontoCambio, MontoSubTotal, MontoIVA, MontoTotal)
+		OUTPUT inserted.IdFacturacion INTO @identity
+		SELECT ClienteId, @tempnrodocumento, DocCliente, MontoPagoCon, MontoCambio, MontoSubTotal, MontoIVA, MontoTotal FROM @facturacion
+
+		UPDATE @detalleVenta SET FacturacionId = (SELECT ID FROM @identity)
+
+		INSERT INTO DetalleVenta(FacturacionId, ProductoId, ClienteId,PrecioVenta, Cantidad, TOTAL)
+		SELECT FacturacionId, ProductoId, ClienteId,PrecioVenta, Cantidad, TOTAL FROM @detalleVenta
+
+		UPDATE p SET p.UnidadesEnExistencia = p.UnidadesEnExistencia - dv.Cantidad FROM Productos p
+		INNER JOIN @detalleVenta dv ON  dv.FacturacionId = p.IdProducto
+
+		COMMIT 
+		SET @NroDocumento = @tempnrodocumento
+
+	END TRY
+	BEGIN CATCH
+		ROLLBACK
+		SET @NroDocumento = ''
+	END CATCH
+
+END
+
+GO
+
+SELECT * FROM Facturacion;
