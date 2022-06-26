@@ -5,23 +5,16 @@ namespace GestorVentas.Models
 {
     public class DetalleFactura
     {
-        public int Id { get; set; }
+        public int IdDatelleVenta { get; set; }
 
-        public string Precio { get; set; }
+        public Producto oProductoId { get; set; }
 
-        public int Cantidad { get; set; }
+        public decimal PrecioVenta { get; set; }
 
+        public decimal Cantidad { get; set; }
 
-        //[Display(Name = "Productos")]
-        //[JsonIgnore]
-        //public int DetalleFacConProductoId { get; set; }
-        //[JsonIgnore]
-        //public Productos DetalleFacConProducto { get; set; }
+        public decimal TOTAL { get; set; }
 
-        [Display(Name = "Facturacion")]
-        [JsonIgnore]
-        public int FacturacionConDetalleFacturaId { get; set; }//Relacion con DetalleFactura FK
-        [JsonIgnore]
-        public Facturacion FacturacionConDetalleFactura { get; set; }//Atributos de Navegacion
+      
     }
 }

@@ -5,27 +5,30 @@ namespace GestorVentas.Models
 {
     public class Facturacion
     {
-        public int Id { get; set; }
+        public int IdFacturacion { get; set; }
 
-        public DateTime FechaFacturacion { get; set; }
+        public string NumDocumento  { get; set; }
 
-        public double Descuento { get; set; }
+        public string DocCliente { get; set; }
 
-        public double Impuesto { get; set; }
+        public decimal MontoPagoCon { get; set; }
+
+        public decimal MontoCambio { get; set; }
+
+        public decimal MontoSubTotal { get; set; }
+
+        public decimal MontoIVA { get; set; }
+
+        public decimal MontoTotal { get; set; }
+
+        public string FechaRegistro { get; set; }
 
 
-        public int FacturacionConClienteId { get; set; }
+
         [JsonIgnore]
-        public Clientes FacturacionConCliente { get; set; }
+        public List<DetalleFactura> oDetalleFactura { get; set; }
 
 
-        //[Display(Name = "Productos")]
-        //[JsonIgnore]
-        //public int FacturacionProductosId { get; set; }
-        //[JsonIgnore]
-        //public Productos FacturacionProductos { get; set; }
-
-        [JsonIgnore]
-        public List<DetalleFactura> DetalleFactura { get; set; }
+        
     }
 }
