@@ -114,6 +114,9 @@
                         <div class="input-group input-group-sm mb-2">
                             <span class="input-group-text ">Buscar Cliente</span>
                             <input type="text" class="form-control form-control-sm" id="buscarCliente" />
+                           
+                        </div>
+                        <div class="col-sm-12">
                             <table id="tablaCliente" class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -124,17 +127,14 @@
                                 </thead>
                             <tbody>
                             </tbody>
-                        </table>
-                        </div>
-                         
+                            </table>
+                       </div>
                      </div>
                     </div>
                 </div>
             </div>
         </div>
-
-    </div>
-</div>
+ </div>
 
 
 
@@ -493,43 +493,6 @@
             }
 
 
-             jQuery.ajax({
-                 url: '@Url.Action("RegistrarVenta", "Home")',
-                 type: "POST",
-                 data: JSON.stringify(request_body),
-                 dataType: "json",
-                 contentType: "application/json; charset=utf-8",
-                 success: function (data) {
-                     console.log(data)
-                     
-                     if(data.respuesta !== ""){
-
-                        Swal.fire({
-                          icon: 'success',
-                          title: 'Venta Registrada',
-                          text: 'Nro Documento: ' + data.respuesta
-                        })
-
-                        $("#tabla tbody").html("");
-                        productos = [];
-                        mostrarListaVacia();
-                        MostrarPrecios();
-                        $("#txtPagoCon").val("");
-                        $("#txtCambio").val("");
-                        $("#txtdocumentocliente").val("");
-                        $("#txtnombrecliente").val("");
-                     }else{
-                        Swal.fire({
-                          icon: 'error',
-                          title: 'No se puedo completar la venta',
-                        })
-                     }
-                 },
-                 error: function (error) {
-                 },
-                 beforeSend: function () {
-                 }
-             });
 
 
 
