@@ -8,7 +8,7 @@ namespace GestorVentas.Data
     {
         public List<Proveedores> Listar()
         {
-
+             
             var oLista = new List<Proveedores>();
 
             var cn = new Connection();
