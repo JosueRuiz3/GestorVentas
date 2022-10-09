@@ -26,7 +26,7 @@ namespace GestorVentas.Data
                         oLista.Add(new Proveedores()
                         {
                             IdProveedor = Convert.ToInt32(dr["IdProveedor"]),
-                            Compañia = dr["Compañia"].ToString(),
+                            Compania = dr["Compania"].ToString(),
                             NombreRepresentante = dr["NombreRepresentante"].ToString(),
                             Telefono = dr["Telefono"].ToString()
                         });
@@ -48,7 +48,7 @@ namespace GestorVentas.Data
                 {
                     oconexion.Open();
                     SqlCommand cmd = new SqlCommand("SP_Guardar_Proveedores", oconexion);
-                    cmd.Parameters.AddWithValue("Compañia", obj.Compañia);
+                    cmd.Parameters.AddWithValue("Compania", obj.Compania);
                     cmd.Parameters.AddWithValue("NombreRepresentante", obj.NombreRepresentante);
                     cmd.Parameters.AddWithValue("Telefono", obj.Telefono);
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -75,7 +75,7 @@ namespace GestorVentas.Data
                     oconexion.Open();
                     SqlCommand cmd = new SqlCommand("SP_Actualizar_Proveedores", oconexion);
                     cmd.Parameters.AddWithValue("IdProveedor", obj.IdProveedor);
-                    cmd.Parameters.AddWithValue("Compañia", obj.Compañia);
+                    cmd.Parameters.AddWithValue("Compania", obj.Compania);
                     cmd.Parameters.AddWithValue("NombreRepresentante", obj.NombreRepresentante);
                     cmd.Parameters.AddWithValue("Telefono", obj.Telefono);
                     cmd.CommandType = CommandType.StoredProcedure;

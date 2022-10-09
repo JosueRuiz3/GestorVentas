@@ -20,7 +20,7 @@ namespace GestorVentas.Controllers
         public async Task<IActionResult> Index(string usuario, string contraseña)
         {
             Login ouser = new Login();
-            ouser = _dtoLogin.Listar().Where(u => u.Usuario == usuario && u.Contraseña == contraseña).FirstOrDefault();
+            ouser = _dtoLogin.Listar().Where(u => u.Usuario == usuario && u.Contrasena == contraseña).FirstOrDefault();
 
             if (ouser == null)
             {

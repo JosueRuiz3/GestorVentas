@@ -26,7 +26,7 @@ namespace GestorVentas.Data
                         {
                             Id = Convert.ToInt32(dr["Id"]),
                             Usuario = dr["Usuario"].ToString(),
-                            Contraseña = dr["Contraseña"].ToString()
+                            Contrasena = dr["Contrasena"].ToString()
 
                         }); ;
                     }
@@ -48,7 +48,7 @@ namespace GestorVentas.Data
                     oconexion.Open();
                     SqlCommand cmd = new SqlCommand("SP_Guardar_Login", oconexion);
                     cmd.Parameters.AddWithValue("Usuario", obj.Usuario);
-                    cmd.Parameters.AddWithValue("Constraseña", obj.Contraseña);
+                    cmd.Parameters.AddWithValue("Contrasena", obj.Contrasena);
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.ExecuteNonQuery();

@@ -152,7 +152,7 @@
                 },
                 "columns": [
                     { "data": "idProveedor" },
-                    { "data": "compañia" },
+                    { "data": "compania" },
                     { "data": "nombreRepresentante" },
                     { "data": "telefono" },
                     {
@@ -175,7 +175,8 @@
                                 var title = $(cell).text();
 
                                 //especificar que columna debe mostrar la caja de filtro
-                                if ($(api.column(colIdx).header()).index() >= 0 &&  $(api.column(colIdx).header()).index() != 1 &&  $(api.column(colIdx).header()).index() != 2 &&  $(api.column(colIdx).header()).index() != 3) {
+                                if ($(api.column(colIdx).header()).index() >= 0 &&  $(api.column(colIdx).header()).index() != 1 &&  $(api.column(colIdx).header()).index() != 2 &&  $(api.column                                        (colIdx).header()).index() != 3) 
+                                {
                                      $(cell).html('<input type="text" placeholder="buscar..."/>');
                                 }
  
@@ -227,7 +228,7 @@
                       console.log("Listo para registrar");
                       var request_body = {
                           IdProveedor : $("#txtidproveedor").val(),
-                          Compañia : $("#txtcompañia").val(),
+                         Compania : $("#txtcompañia").val(),
                           NombreRepresentante : $("#txtnombreRepresentante").val(),
                           Telefono : $("#txttelefono").val()
                       };
@@ -274,7 +275,7 @@
             var data = tabla.row(filaSeleccionada).data();
 
             $("#txtidproveedor").val(data.idProveedor)
-            $("#txtcompañia").val(data.compañia)
+            $("#txtcompañia").val(data.compania)
             $("#txtnombreRepresentante").val(data.nombreRepresentante)
             $("#txttelefono").val(data.telefono)
 

@@ -87,7 +87,7 @@ EXEC SP_Guardar_Usuarios
 	@Telefono  = '6406-0470'
 GO
 
-SELECT * FROM Usuarios;
+EXEC SP_Listar_Usuarios;
 
 --=============================================================================================
 -- TABLA -> LOGIN
@@ -96,7 +96,7 @@ SELECT * FROM Usuarios;
 CREATE TABLE Login(
 	Id INT IDENTITY(1,1),
 	Usuario VARCHAR(10) NOT NULL,
-	Contraseña VARCHAR(10) NOT NULL,
+	Contrasena VARCHAR(10) NOT NULL,
 
 	FechaCreacion DATETIME DEFAULT GETDATE() NOT NULL
 
@@ -112,7 +112,7 @@ CREATE OR ALTER PROCEDURE SP_Listar_Login
 	AS
 BEGIN	
 
-	SELECT Id, Usuario, Contraseña FROM Login
+	SELECT Id, Usuario, Contrasena FROM Login
 
 END
 GO
@@ -120,12 +120,12 @@ GO
 
 CREATE OR ALTER PROCEDURE SP_Guardar_Login
 	@Usuario VARCHAR(10),
-	@Contraseña VARCHAR(10)
+	@Contrasena VARCHAR(10)
 	AS
 BEGIN
 	
-	INSERT INTO Login( Usuario, Contraseña)
-	VALUES(@Usuario, @Contraseña)
+	INSERT INTO Login( Usuario, Contrasena)
+	VALUES(@Usuario, @Contrasena)
 
 END
 GO
@@ -134,7 +134,7 @@ GO
 CREATE OR ALTER PROCEDURE SP_Actualizar_Login
 	@Id INT,
 	@Usuario VARCHAR(10),
-	@Contraseña VARCHAR(10)
+	@Contrasena VARCHAR(10)
 	AS
 BEGIN
 
@@ -142,7 +142,7 @@ BEGIN
 	SET
 
 		Usuario = @Usuario, 
-		Contraseña = @Contraseña
+		Contrasena = @Contrasena
 		
 	WHERE
 		Id = @Id
@@ -163,10 +163,10 @@ GO
 
 EXEC SP_Guardar_Login
 	@Usuario = 'andy',
-	@Contraseña = 'andy123'
+	@Contrasena = 'andy123'
 GO
 
-SELECT * FROM Login;
+EXEC SP_Listar_Login;
 
 --=============================================================================================
 -- TABLA -> CATEGORIA
@@ -242,7 +242,7 @@ GO
 
 EXEC SP_Guardar_Categoria
 	@NombreCategoria = 'Bebidas',
-	@Descripcion = 'Gaseosas, Café, té, cervezas y maltas'
+	@Descripcion = 'Gaseosas, Cafï¿½, tï¿½, cervezas y maltas'
 GO
 
 EXEC SP_Guardar_Categoria
@@ -270,7 +270,7 @@ GO
 
 CREATE TABLE Proveedores(
 	IdProveedor INT IDENTITY(1,1),
-	Compañia VARCHAR(20) NOT NULL,
+	Compania VARCHAR(20) NOT NULL,
 	NombreRepresentante VARCHAR(20) NOT NULL,
 	Telefono VARCHAR(20) NOT NULL,
 
@@ -288,21 +288,21 @@ CREATE OR ALTER PROCEDURE SP_Listar_Proveedores
 	AS
 BEGIN	
 
-	SELECT IdProveedor, Compañia, NombreRepresentante, Telefono FROM Proveedores
+	SELECT IdProveedor, Compania, NombreRepresentante, Telefono FROM Proveedores
 
 END
 GO
 
 
 CREATE OR ALTER PROCEDURE SP_Guardar_Proveedores
-	@Compañia VARCHAR(20), 
+	@Compania VARCHAR(20), 
 	@NombreRepresentante VARCHAR(20),
 	@Telefono VARCHAR(20)
 	AS
 BEGIN
 	
-	INSERT INTO Proveedores(Compañia, NombreRepresentante, Telefono)
-	VALUES(@Compañia, @NombreRepresentante, @Telefono)
+	INSERT INTO Proveedores(Compania, NombreRepresentante, Telefono)
+	VALUES(@Compania, @NombreRepresentante, @Telefono)
 
 END
 GO
@@ -310,7 +310,7 @@ GO
 
 CREATE OR ALTER PROCEDURE SP_Actualizar_Proveedores
 	@IdProveedor INT,
-	@Compañia VARCHAR(20), 
+	@Compania VARCHAR(20), 
 	@NombreRepresentante VARCHAR(20),
 	@Telefono VARCHAR(20)
 	AS
@@ -318,7 +318,7 @@ BEGIN
 
 	UPDATE Proveedores
 	SET
-		Compañia = @Compañia, 
+		Compania = @Compania, 
 		NombreRepresentante = @NombreRepresentante, 
 		Telefono = @Telefono
 	WHERE
@@ -339,20 +339,20 @@ GO
 
 
 EXEC SP_Guardar_Proveedores
-	@Compañia = 'Coca Cola', 
+	@Compania = 'Coca Cola', 
 	@NombreRepresentante = 'Veronica Perez',
 	@Telefono = '2209-8912'
 GO
 
 
 EXEC SP_Guardar_Proveedores
-	@Compañia = 'Pozuelo', 
+	@Compania = 'Pozuelo', 
 	@NombreRepresentante = 'Samuel Gomez',
 	@Telefono = '2288-1234'
 GO
 
 EXEC SP_Guardar_Proveedores
-	@Compañia = 'Tio Pelon', 
+	@Compania = 'Tio Pelon', 
 	@NombreRepresentante = 'Alexandro Gomez',
 	@Telefono = '2421-8756'
 GO
@@ -395,7 +395,7 @@ BEGIN
 	p.PrecioCompra,
 	p.PrecioVenta,
 	p.UnidadesEnExistencia,
-	pr.IdProveedor, pr.Compañia[ComProveedor]
+	pr.IdProveedor, pr.Compania[ComProveedor]
 
 	FROM  Productos p
 	INNER JOIN Categorias c ON c.IdCategoria = p.IdCategoria

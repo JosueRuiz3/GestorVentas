@@ -7,7 +7,7 @@ namespace GestorVentas.Models
     {
         public int IdProveedor { get; set; }
 
-        public string Compañia { get; set; }
+        public string Compania { get; set; }
 
         public string NombreRepresentante { get; set; }
 

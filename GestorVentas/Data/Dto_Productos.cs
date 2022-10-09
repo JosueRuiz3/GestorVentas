@@ -33,7 +33,7 @@ namespace GestorVentas.Data
                             PrecioCompra = Convert.ToDecimal(dr["PrecioCompra"], new CultureInfo("es-PE")),
                             PrecioVenta = Convert.ToDecimal(dr["PrecioVenta"], new CultureInfo("es-PE")),
                             UnidadesEnExistencia = Convert.ToInt32(dr["UnidadesEnExistencia"]),
-                            oProveedores = new Proveedores() { IdProveedor = Convert.ToInt32(dr["IdProveedor"]), Compañia = dr["ComProveedor"].ToString() }
+                            oProveedores = new Proveedores() { IdProveedor = Convert.ToInt32(dr["IdProveedor"]), Compania = dr["ComProveedor"].ToString() }
                         });
 
                     }
