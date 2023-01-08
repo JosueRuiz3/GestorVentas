@@ -57,10 +57,10 @@ namespace GestorVentas.Data
                     cmd.Parameters.AddWithValue("Codigo", obj.Codigo);
                     cmd.Parameters.AddWithValue("IdCategoria", obj.oCategoria.IdCategoria);
                     cmd.Parameters.AddWithValue("NombreProducto", obj.NombreProducto);
+                    cmd.Parameters.AddWithValue("IdProveedor", obj.oProveedores.IdProveedor);
                     cmd.Parameters.AddWithValue("PrecioCompra", obj.PrecioCompra);
                     cmd.Parameters.AddWithValue("PrecioVenta", obj.PrecioVenta);
                     cmd.Parameters.AddWithValue("UnidadesEnExistencia", obj.UnidadesEnExistencia);
-                    cmd.Parameters.AddWithValue("IdProveedor", obj.oProveedores.IdProveedor);
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.ExecuteNonQuery();

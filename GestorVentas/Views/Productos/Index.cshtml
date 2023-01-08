@@ -23,9 +23,6 @@
         Lista de productos
     </div>
     <div class="card-body">
-     @*   <button class="btn btn-success" id="btnCrear">Crear nuevo</button>
-        <hr />*@
-
         <div class="row">
             <div class="col-sm-12">
                 <table id="tbdata" class="table table-striped w-100 shadow" style="width:100%">
@@ -74,7 +71,7 @@
                 </div>
                 <div class="col-6">
                     <label for="exampleFormControlInput1" class="form-label">Proveedor</label>
-                    <select class="form-select form-select-sm" id="cboproveedor" required>
+                            <select class="form-select form-select-sm" id="cboproveedores" required>
                     </select>
                     <div class="invalid-feedback">Seleccione el proveedor</div>
                 </div>
@@ -192,7 +189,7 @@
                     { "data": "nombreProducto" },
                     {
                         "data": "oProveedores", "render": function (data) {
-                            return data.compañia
+                            return data.compania
                         }
                     },
                     { "data": "precioCompra" },
@@ -273,22 +270,25 @@
                     console.log(error)
                 }
         });
-  
+
+
         jQuery.ajax({
-                url: '@Url.Action("ListaProveedores", "Proveedores")',
-                type: "GET",
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    $("<option>").attr({ "value": ""}).text("Seleccionar").appendTo("#cboproveedor");
-                    $.each(data.data, function (index, value) {
-                        $("<option>").attr({ "value": value.idProveedor }).text(value.compañia).appendTo("#cboproveedor");
-                    });
-                },
-                error: function (error) {
-                    console.log(error)
-                }
+            url: '@Url.Action("ListaProveedores", "Proveedores")',
+            type: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                $("<option>").attr({ "value": "" }).text("Seleccionar").appendTo("#cboproveedores");
+                $.each(data.data, function (index, value) {
+                    $("<option>").attr({ "value": value.idProveedor }).text(value.compania).appendTo("#cboproveedores");
+                });
+            },
+            error: function (error) {
+                console.log(error)
+            }
         });
+  
+        
         
         $("#btnguardarproducto").on("click",function(){
 
@@ -307,10 +307,10 @@
                           Codigo :$("#txtcodigobarras").val(),
                           oCategoria : { IdCategoria :  $("#cbocategoria option:selected").val()},
                           NombreProducto : $("#txtnombreProducto").val(),
+                          oProveedores: { IdProveedor: $("#cboproveedor option:selected").val() },
                           PrecioCompra : $("#txtpreciocompra").val(),
                           PrecioVenta : $("#txtprecioventa").val(),
-                          UnidadesEnExistencia : $("#txtunidadesEnExistencia").val(),
-                          oProveedores : { IdProveedor :  $("#cboproveedor option:selected").val()}
+                          UnidadesEnExistencia : $("#txtunidadesEnExistencia").val()
                       };
                       
                       
@@ -362,7 +362,7 @@
             $("#txtpreciocompra").val(data.precioCompra)
             $("#txtprecioventa").val(data.precioVenta)
             $("#txtunidadesEnExistencia").val(data.unidadesEnExistencia)
-            $("#cboproveedor").val(data.oProveedores.idProveedor)
+            $("#cboproveedores").val(data.oProveedores.idProveedor)
 
             console.log(data);
         })
@@ -418,7 +418,7 @@
             $("#txtpreciocompra").val("");
             $("#txtprecioventa").val("");
             $("#txtunidadesEnExistencia").val("");
-            $("#cboproveedor").val($("#cboproveedor option:first").val());
+            $("#cboproveedores").val($("#cboproveedores option:first").val());
 
         }
     </script>

@@ -13,12 +13,14 @@ namespace GestorVentas.Models
 
         public string NombreProducto { get; set; }
 
+        public Proveedores oProveedores { get; set; }
+
         public decimal PrecioCompra { get; set; }
 
         public decimal PrecioVenta { get; set; }
 
         public int UnidadesEnExistencia { get; set; }
 
-        public Proveedores oProveedores { get; set; }
+        
     }
 }
