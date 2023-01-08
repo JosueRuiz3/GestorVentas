@@ -284,7 +284,7 @@ CREATE TABLE Proveedores(
 -- PROCEDIMIENTOS ALMACENADOS -> PROVEEDORES
 --=============================================================================================
 
-CREATE OR ALTER PROCEDURE SP_Listar_Proveedores
+CREATE PROCEDURE SP_Listar_Proveedores
 	AS
 BEGIN	
 
