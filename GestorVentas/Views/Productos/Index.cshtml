@@ -307,7 +307,7 @@
                           Codigo :$("#txtcodigobarras").val(),
                           oCategoria : { IdCategoria :  $("#cbocategoria option:selected").val()},
                           NombreProducto : $("#txtnombreProducto").val(),
-                          oProveedores: { IdProveedor: $("#cboproveedor option:selected").val() },
+                        oProveedores: { IdProveedor: $("#cboproveedores option:selected").val() },
                           PrecioCompra : $("#txtpreciocompra").val(),
                           PrecioVenta : $("#txtprecioventa").val(),
                           UnidadesEnExistencia : $("#txtunidadesEnExistencia").val()
@@ -359,10 +359,10 @@
             $("#txtcodigobarras").val(data.codigo)
             $("#cbocategoria").val(data.oCategoria.idCategoria)
             $("#txtnombreProducto").val(data.nombreProducto)
+            $("#cboproveedores").val(data.oProveedores.idProveedor)
             $("#txtpreciocompra").val(data.precioCompra)
             $("#txtprecioventa").val(data.precioVenta)
             $("#txtunidadesEnExistencia").val(data.unidadesEnExistencia)
-            $("#cboproveedores").val(data.oProveedores.idProveedor)
 
             console.log(data);
         })
