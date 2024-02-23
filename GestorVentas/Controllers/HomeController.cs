@@ -11,9 +11,9 @@ namespace GestorVentas.Controllers
     {
         Dto_Productos _daProducto = new Dto_Productos();
         Dto_Clientes _daCliente = new Dto_Clientes();
-        Dto_Facturacion _daVenta = new Dto_Facturacion();
-
+        Dto_Facturacion _daFacturacion = new Dto_Facturacion();
         private readonly ILogger<HomeController> _logger;
+
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -77,6 +77,77 @@ namespace GestorVentas.Controllers
             Clientes? oCliente = new Clientes();
             oCliente = _daCliente.Listar().Where(x => x.IdCliente == idcliente).FirstOrDefault();
             return Json(oCliente);
+        }
+
+        [HttpPost]
+        public IActionResult RealizarVenta([FromBody] VentaRequest ventaRequest)
+        {
+            try
+            {
+                // Validate the ventaRequest object
+                if (ventaRequest == null || ventaRequest.Productos == null || ventaRequest.Clientes == null)
+                {
+                    return BadRequest("Invalid request.");
+                }
+
+                // Create a new Facturacion object and populate it with data from the request
+                Facturacion venta = new Facturacion
+                {
+                    NumDocumento = GenerateNumeroDocumento(), // You need to implement a method to generate a unique document number
+                    DocCliente = ventaRequest.Clientes.First().DocCliente, // Assuming only one client is selected
+                    MontoPagoCon = ventaRequest.MontoPagoCon,
+                    // Populate other properties based on your requirements
+                };
+
+                // Process each selected product and create DetalleFactura objects
+                foreach (var producto in ventaRequest.Productos)
+                {
+                    DetalleFactura detalle = new DetalleFactura
+                    {
+                        oProductoId = producto.oProductoId,
+                        PrecioVenta = producto.PrecioVenta,
+                        Cantidad = producto.Cantidad,
+                        TOTAL = producto.PrecioVenta * producto.Cantidad,
+                        // Populate other properties based on your requirements
+                    };
+
+                    venta.oDetalleFactura.Add(detalle);
+                }
+
+                // Insert the venta object into the database
+                int idFacturacion = _daFacturacion.InsertarFacturacion(venta);
+
+                if (idFacturacion > 0)
+                {
+                    // Update the document number with the generated one
+                    _daFacturacion.ActualizarNumeroDocumento(idFacturacion, venta.NumDocumento);
+
+                    return Ok(new { IdFacturacion = idFacturacion, NumeroDocumento = venta.NumDocumento });
+                }
+                else
+                {
+                    return StatusCode(500, "Error while processing the sale.");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it appropriately
+                return StatusCode(500, "An error occurred while processing the sale.");
+            }
+        }
+
+        private string GenerateNumeroDocumento()
+        {
+            // You can implement your own logic to generate a unique document number.
+            // For example, you can combine a prefix with a timestamp or use a GUID.
+
+            string prefix = "DOC";
+            string timestamp = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+
+            // Concatenate prefix and timestamp to form the document number
+            string numeroDocumento = prefix + timestamp;
+
+            return numeroDocumento;
         }
     }
 }

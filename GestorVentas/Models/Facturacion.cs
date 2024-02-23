@@ -21,11 +21,8 @@ namespace GestorVentas.Models
 
         public decimal MontoTotal { get; set; }
 
-        public string FechaRegistro { get; set; }
+        public string FechaCreacion { get; set; }
 
-
-
-        [JsonIgnore]
         public List<DetalleFactura> oDetalleFactura { get; set; }
 
 
